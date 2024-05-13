@@ -106,7 +106,7 @@ components:
           type: string
         description:
           type: string
-        price:
+        pricePerNight:
           type: number
         extras:
           type: array
@@ -122,10 +122,12 @@ components:
         - firstName
         - lastName
         - email
+        - birthdate
         - breakfast
         - roomId
         - startDate
         - endDate
+        - guestCount
       properties:
         roomId:
           type: integer
@@ -135,6 +137,9 @@ components:
           type: string
         email:
           type: string
+        birthdate:
+          type: string
+          format: date
         breakfast:
           type: boolean
         startDate:
@@ -143,8 +148,8 @@ components:
         endDate:
           type: string
           format: date
-        guestName:
-          type: string
+        guestCount:
+          type: integer
     BookingConfirmation:
       type: object
       properties:
@@ -170,6 +175,10 @@ components:
               type: string
             email:
               type: string
+            guestCount:
+              type: integer
+        totalCost:
+          type: number
         directions:
           type: string
         contact:
