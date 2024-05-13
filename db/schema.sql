@@ -18,16 +18,6 @@ create table guests
         unique (account)
 );
 
-create table hotels
-(
-    id           int auto_increment
-        primary key,
-    name         text     not null,
-    address      text     not null,
-    email        tinytext null,
-    phone_number tinytext null
-);
-
 create table room_features
 (
     feature varchar(255) not null
@@ -49,8 +39,6 @@ create table rooms
         primary key,
     hotel int          not null,
     type  varchar(255) null,
-    constraint rooms_hotels_id_fk
-        foreign key (hotel) references hotels (id),
     constraint rooms_room_types_type_fk
         foreign key (type) references room_types (type)
 );
