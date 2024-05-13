@@ -14,6 +14,7 @@ create table guests
     last_name  text not null,
     birthday   date not null,
     account    uuid null,
+    email      text null,
     constraint guests_account_key
         unique (account)
 );
