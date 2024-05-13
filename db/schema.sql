@@ -36,10 +36,11 @@ create table room_types
 
 create table rooms
 (
-    id        int auto_increment
+    id              int auto_increment
         primary key,
-    type      varchar(255) null,
-    image_url text         null,
+    type            varchar(255) null,
+    image_url       text         null,
+    price_per_night double       not null,
     constraint rooms_room_types_type_fk
         foreign key (type) references room_types (type)
 );
