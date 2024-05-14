@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  title: Boutique-hotel-technikum-2024-b_anditen API
+  description: API for managing room bookings at Boutique Hotel Technikum.
+  version: 0.0.1
+servers:
+  - url: http://localhost:8000/api/v1/
+    description: Local server
+paths:
+  /rooms:
+    get:
+      summary: List all rooms
+      operationId: listRooms
+      responses:
+        '200':
+          description: A list of rooms
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rooms:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Room'
+  /rooms/{roomId}:
+    get:
+      summary: Get a room by ID
+      operationId: getRoomById
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          description: The ID of the room to get
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detailed information about the room
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '404':
+          description: Room not found
+  /availability:
+    get:
+      summary: Check room availability
+      operationId: checkAvailability
+      parameters:
+        - name: roomId
+          in: query
+          required: true
+          description: ID of the room to check availability for
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          required: true
+          description: Check-in date
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          description: Check-out date
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Room availability status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+  /bookings:
+    post:
+      summary: Create a new booking
+      operationId: createBooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+      responses:
+        '200':
+          description: Booking created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingConfirmation'
+components:
+  schemas:
+    Room:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        pricePerNight:
+          type: number
+        extras:
+          type: array
+          items:
+            type: string
+        imageUrl:
+          type: string
+          format: uri
+          description: URL of the room image
+    BookingRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - birthdate
+        - breakfast
+        - roomId
+        - startDate
+        - endDate
+        - guestCount
+      properties:
+        roomId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        breakfast:
+          type: boolean
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        guestCount:
+          type: integer
+    BookingConfirmation:
+      type: object
+      properties:
+        bookingId:
+          type: integer
+        room:
+          $ref: '#/components/schemas/Room'
+        period:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+            endDate:
+              type: string
+              format: date
+        guestInfo:
+          type: object
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            email:
+              type: string
+            guestCount:
+              type: integer
+        totalCost:
+          type: number
+        directions:
+          type: string
+        contact:
+          type: string
