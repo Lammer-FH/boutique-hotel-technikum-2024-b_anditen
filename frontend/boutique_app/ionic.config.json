@@ -1,0 +1,7 @@
+{
+  "name": "boutique_app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
