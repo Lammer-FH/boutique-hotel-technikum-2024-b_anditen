@@ -38,7 +38,8 @@ import {
   IonToolbar,
   IonMenuButton,
   IonTitle,
-  IonRouterOutlet
+  IonRouterOutlet,
+  IonMenuToggle
 } from '@ionic/vue';
 
 export default defineComponent({
@@ -53,7 +54,14 @@ export default defineComponent({
     IonHeader,
     IonToolbar,
     IonMenuButton,
-    IonTitle
+    IonTitle,
+    IonMenuToggle
   }
 });
 </script>
+
+<style scoped>
+ion-item {
+  cursor: pointer;
+}
+</style>
