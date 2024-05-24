@@ -67,6 +67,5 @@ import {IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, Ion
 
 ion-title {
   font-size: 1.2rem;
-  text-align: center;
 }
 </style>

@@ -5,14 +5,14 @@
         <ion-buttons slot="start">
           <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Home</ion-title>
+        <ion-title>Start</ion-title>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <div id="overview-container">
         <strong id="heading">Willkommen im Boutique Hotel Technikum!</strong>
-        <p>Sie sind ein Fan von Sonne, Meer und Strand? Oder lieben doch eher Berge, Wald und Schnee vor der Haustüre
+        <p class="justified-text">Sie sind ein Fan von Sonne, Meer und Strand? Oder lieben doch eher Berge, Wald und Schnee vor der Haustüre
           <br>
           Kein Problem! Im Boutique Hotel Technikum ist für jeden das Richtige dabei. Bestaunen Sie die 100%
           wahrheitsgetreuen Bilder auf unserer Seite und buchen Sie noch heute Ihren Aufenthalt. Wir können Sie kaum
@@ -47,6 +47,10 @@ import 'swiper/css/navigation';
   padding: 1.1rem;
 }
 
+.justified-text {
+  text-align: justify;
+}
+
 .mySwiper {
   width: 100%;
   height: 100%;
@@ -59,6 +63,9 @@ swiper-slide {
 }
 
 img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
