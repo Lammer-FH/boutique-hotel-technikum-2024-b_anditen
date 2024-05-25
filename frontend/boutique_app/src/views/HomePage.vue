@@ -19,13 +19,13 @@
           erwarten!</p>
         <swiper ref="swiper" class="mySwiper">
           <swiper-slide>
-            <img src="/images/technikum_oversight.jpg" alt="Boutique Hotel Technikum overview"/>
+            <img src="../assets/technikum_oversight.jpg" alt="Boutique Hotel Technikum overview"/>
           </swiper-slide>
           <swiper-slide>
-            <img src="/images/hotel_room_sea.jpg" alt="Room with beach view"/>
+            <img src="../assets/hotel_room_sea.jpg" alt="Room with beach view"/>
           </swiper-slide>
           <swiper-slide>
-            <img src="/images/hotel_room_mountain.jpg" alt="Room with mountain view"/>
+            <img src="../assets/hotel_room_mountain.jpg" alt="Room with mountain view"/>
           </swiper-slide>
         </swiper>
       </div>
