@@ -11,7 +11,10 @@
     <ion-content>
       <ion-list>
         <ion-menu-toggle auto-hide>
-          <ion-item router-link="/home">Start</ion-item>
+          <ion-item router-link="/home">Überblick</ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide>
+          <ion-item router-link="/rooms">Zimmer</ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle auto-hide>
           <ion-item router-link="/about">Über uns</ion-item>
