@@ -13,4 +13,8 @@ import jakarta.persistence.Table
 
 @Entity
 @Table
-data class Rooms(@Id @GeneratedValue @Column val id: Int, @OneToOne @JoinColumn val types: RoomTypes, @ManyToMany @JoinTable val beds: Set<BedTypes>)
+data class Rooms(
+    @Id @GeneratedValue @Column val id: Int,
+    @OneToOne @JoinColumn val types: RoomTypes,
+    @ManyToMany @JoinTable val beds: Set<BedTypes>
+)
