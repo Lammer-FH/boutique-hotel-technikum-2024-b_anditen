@@ -8,9 +8,9 @@ import jakarta.persistence.OneToMany
 import java.sql.Date
 
 @Entity
-data class Bookings(
-    @Id @GeneratedValue @Column val id: Int,
-    @Column val startDate: Date,
-    @Column val endDate: Date,
-    @OneToMany val rooms: Set<Rooms>
+data class Booking(
+    @Id @GeneratedValue val id: Long,
+    val startDate: Date,
+    val endDate: Date,
+    @OneToMany val rooms: Set<Room>
 )

@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Lazy
 
 @Entity
 @Table
-data class RoomTypes(
-    @Id @Column val type: String,
-    @Column val name: String,
-    @Column val description: String,
-    @OneToMany @Lazy val rooms: Set<Rooms>
+data class RoomType(
+    @Id val type: String,
+    val name: String,
+    val description: String,
+    @OneToMany val rooms: Set<Room>
 )

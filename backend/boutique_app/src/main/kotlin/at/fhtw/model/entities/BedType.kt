@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Lazy
 
 @Entity
 @Table
-data class BedTypes(
-    @Id @Column val type: String,
-    @Column val name: String,
-    @Column val description: String,
-    @ManyToMany @JoinTable @Lazy private val rooms: Set<Rooms>
+data class BedType(
+    @Id val type: String,
+    val name: String,
+    val description: String,
+    @ManyToMany @JoinTable private val rooms: Set<Room>
 )
