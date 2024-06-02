@@ -1,6 +1,7 @@
 package at.fhtw.controller
 
 import at.fhtw.dtos.requests.CreateBookingRequest
+import at.fhtw.model.entities.BedsInRoomsId
 import at.fhtw.model.entities.Booking
 import at.fhtw.model.repositories.BookingsRepository
 import at.fhtw.model.repositories.RoomRepository
@@ -26,7 +27,21 @@ class BookingsController(val bookingsRepository: BookingsRepository, val roomRep
             numberOfGuests = createBookingRequest.numberOfGuests,
             rooms = createBookingRequest.roomIds.map { roomRepository.findById(it).orElseThrow() }.toSet()
         )
+
+        val unavailable = createBookingRequest.roomIds.filter {
+            !roomRepository.checkIfRoomIsAvailable(
+                it,
+                booking.start,
+                booking.end
+            )
+        }
+        if (unavailable.isNotEmpty()) {
+            throw RoomUnavailableException(unavailable.toSet())
+        }
+
         // Todo: Check if rooms are available
         bookingsRepository.save(booking)
     }
 }
+
+class RoomUnavailableException(val roomIds: Set<Long>) : RuntimeException()

@@ -16,9 +16,9 @@ import java.sql.Date
 class Booking(
     @Column(nullable = false) val customer: Customer,
     @Column(nullable = false) @Min(1) val numberOfGuests: Int,
-    @Checks(Check(constraints = "start < end")) @Column(nullable = false) val start: Date,
-    @Column(nullable = false) val end: Date,
-    @OneToMany() val rooms: Set<Room>,
+    @Checks(Check(constraints = "start < end")) @Column(nullable = false) @Temporal(TemporalType.DATE) val start: Date,
+    @Column(nullable = false) @Temporal(TemporalType.DATE) val end: Date,
+    @ManyToMany val rooms: Set<Room>,
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "native") @GenericGenerator(
         name = "native", strategy = "native"
     ) val id: Long? = null,
