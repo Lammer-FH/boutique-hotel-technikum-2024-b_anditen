@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator
 import java.sql.Date
 
 @Entity
-data class Booking(
+class Booking(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native") val id: Long,

@@ -4,15 +4,12 @@ import jakarta.persistence.*
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Table
-class Room(
+class RoomType(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native") val id: Long,
-    @ManyToMany val features: Set<RoomFeature>,
-    @OneToMany(
-        mappedBy = "room",
-    ) val beds: Set<BedsInRooms>,
-    @ManyToOne(optional = false) val type: RoomType,
-    val imageUrL: String?,
+    val name: String,
+    val description: String,
+    @ManyToMany
+    val standardFeatures: Set<RoomFeature>,
 )

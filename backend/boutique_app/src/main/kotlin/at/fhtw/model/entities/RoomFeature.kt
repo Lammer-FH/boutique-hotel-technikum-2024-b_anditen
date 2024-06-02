@@ -7,8 +7,8 @@ import jakarta.persistence.Id
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-data class RoomFeature(
+class RoomFeature(
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native") val feature: Long,
+    @GenericGenerator(name = "native", strategy = "native") val id: Long,
     val name: String,
 )
