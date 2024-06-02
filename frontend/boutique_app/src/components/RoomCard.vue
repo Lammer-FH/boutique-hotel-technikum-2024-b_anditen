@@ -7,10 +7,10 @@
         </ion-card-header>
 
         <ion-card-content>
-            <ion-label>{{ room.descritpion }}</ion-label>
+            <ion-label style="text-align: start;">{{ room.description }}</ion-label>
             <!-- <ion-badge slot="end">{{ room.price }}</ion-badge> -->
             <!-- <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button> -->
-            <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button>
+            <ion-button style="text-align: end;" fill="clear" slot="end">Ab {{ room.pricePerNight }}€</ion-button>
         </ion-card-content>
         
         <!-- <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button> -->

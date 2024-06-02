@@ -8,88 +8,89 @@
                 <ion-title>Zimmer</ion-title>
             </ion-toolbar>
         </ion-header>
+        <ion-content class="ion-padding content-centered" :fullscreen="true">
+            <div class="centered-container">
+                <ion-button id="open-modal" style="width: 80%;" @click="setOpen(true)">
+                    Pick the Date
+                </ion-button>
 
-        <ion-content class="scroll-content">
-            <ion-button id="open-modal">
-                Pick the Date
-            </ion-button>
-
-            <ion-modal ref="modal" trigger="open-modal" @willDismiss="onWillDismiss" >
-                <ion-header>
-                    <ion-toolbar>
-                    <ion-buttons slot="start">
-                        <ion-button @click="cancel()">Abbrechen</ion-button>
-                    </ion-buttons>
-                    <ion-title>Bitte Datum wählen</ion-title>
-                    <ion-buttons slot="end">
-                        <ion-button :strong="true" @click="confirm()">Bestätigen</ion-button>
-                    </ion-buttons>
-                    </ion-toolbar>
-                </ion-header>
-                <ion-content class="ion-padding">
-                    <ion-item>
-                        <!-- <DatePicker /> -->
-                        <!-- <ion-input
-                            label="Enter your name"
-                            label-placement="stacked"
-                            ref="input"
-                            type="text"
-                            placeholder="Your name"
-                        ></ion-input> -->
+                <ion-modal :is-open="showPicker">
+                    <ion-header>
+                        <ion-toolbar>
+                        <ion-title>Modal</ion-title>
+                        <ion-buttons slot="end">
+                            <ion-button @click="setOpen(false)">Close</ion-button>
+                        </ion-buttons>
+                        </ion-toolbar>
+                    </ion-header>
+                    <ion-content class="ion-padding">
                         <ion-datetime 
+                            ref="datepicker"
                             presentation="date" 
-                            min="1989-06-04"
-                            max="2024-08-23"
+                            min=minDateString
+                            max=maxDateString
                             :multiple="true" 
-                            :value="['2024-06-03', '2022-06-29']"
-                            >
-                        </ion-datetime>
-                    </ion-item>
-                </ion-content>
-            </ion-modal>
+                            :value=dateRange
+                            @ionChange="handleDateChange"
+                        />
+                    </ion-content>
+                </ion-modal>
+                
 
-            <RoomCard 
-            v-for="room in rooms"
-            :key="room.id"
-            :room="room"
-            />
-
+                <RoomCard 
+                v-for="room in rooms"
+                :key="room.id"
+                :room="room"
+                />
+            </div>
         </ion-content>
     </ion-page>
 </template>
 
 <script lang="ts" setup>
-import {IonPage, 
-    IonContent,
+// Definiere ein Interface für das CustomEvent
+interface DatetimeChangeEvent extends CustomEvent {
+  detail: {
+    value: string[];
+  };
+}
+
+import { 
     IonButtons, 
     IonButton, 
-    IonItem, 
     IonModal, 
+    IonHeader, 
+    IonToolbar, 
+    IonContent, 
     IonTitle,
-    IonHeader,
-    IonToolbar,
-    IonDatetime } from '@ionic/vue'; // 
+    IonPage 
+} from '@ionic/vue';
+
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import DatePicker from '../components/DatePicker.vue';
-import { OverlayEventDetail } from '@ionic/core/components';
 import { ref } from 'vue';
 
-const modal = ref();
+const showPicker = ref(false);
+const setOpen = (open: boolean) => (showPicker.value = open);
 
-const cancel = () => modal.value.$el.dismiss(null, 'cancel');
-const confirm = () => {
-    modal.value.$el.onDidDismiss().then(data => {
-        if (data.role === 'confirm') {
-            console.log(data.data);
-        } else {
-            console.log('cancelled');
-        }
-    });
-};
-const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
-    if (ev.detail.role === 'confirm') {
-       //TODO: set value on dismiss
+const today = new Date();
+const minDate = new Date(today);
+minDate.setDate(today.getDate() + 1);
+const minDateString = minDate.toISOString()
+
+const maxDate = new Date(today);
+maxDate.setMonth(today.getMonth() + 6);
+const maxDateString = maxDate.toISOString()
+
+console.log(minDate + " " + maxDate);
+
+const datepicker = ref(null);
+const dateRange = ref<string[]>([]);
+
+const handleDateChange = (event: DatetimeChangeEvent) => {
+    const value = event.detail
+    if (value.value.length > 2) {
+        value.value = value.value.slice(0, 2);
     }
 };
 
@@ -134,15 +135,19 @@ const rooms = ref([
 </script>
 
 <style scoped>
-ion-button {
-    align-self: center;
-    width: 80%;
-    margin-top: 1%;
-    margin-bottom: 1%;
+.content-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
-/* .scroll-content {
-  height: 100%;
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* text-align: center; */
   width: 100%;
-} */
+}
 </style>
