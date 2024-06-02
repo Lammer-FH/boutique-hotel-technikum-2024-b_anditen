@@ -1,4 +1,4 @@
-package at.fhtw.dtos
+package at.fhtw.dtos.responses
 
 data class Feature(
     val name: String,

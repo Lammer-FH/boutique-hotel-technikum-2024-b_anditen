@@ -1,4 +1,4 @@
-package at.fhtw.dtos
+package at.fhtw.dtos.responses
 
 import at.fhtw.model.entities.BedType
 

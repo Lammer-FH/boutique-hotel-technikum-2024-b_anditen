@@ -1,4 +1,4 @@
-package at.fhtw.dtos
+package at.fhtw.dtos.responses
 
 data class Room(
     val id: Long,

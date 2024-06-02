@@ -4,8 +4,7 @@ import jakarta.persistence.*
 
 @Embeddable
 class BedsInRoomsId(
-    val bedTypeId: Long,
-    val roomId: Long
+    val bedTypeId: Long, val roomId: Long
 )
 
 @Entity
