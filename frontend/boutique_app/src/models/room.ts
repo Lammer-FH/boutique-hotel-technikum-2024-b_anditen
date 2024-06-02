@@ -16,4 +16,9 @@ export default class Room {
         this.imageUrl = imageUrl,
         this.available = available
     }
+
+    getLocalImage(): string {
+        // return '@/assets/'+ this.imageUrl;
+        return new URL(`../assets/${this.imageUrl}`, import.meta.url).pathname;
+    }
 }

@@ -1,6 +1,6 @@
 <template>
     <ion-card color="light">
-        <ion-img :src="room.image" alt="Room image"></ion-img>
+        <ion-img :src='room.getLocalImage()' :alt="room.title"></ion-img>
         <ion-card-header>
             <ion-card-title>{{ room.title }}</ion-card-title>
             <!-- <ion-card-subtitle> {{ room.descritpion }}</ion-card-subtitle> -->
@@ -9,10 +9,12 @@
         <ion-card-content>
             <ion-label>{{ room.descritpion }}</ion-label>
             <!-- <ion-badge slot="end">{{ room.price }}</ion-badge> -->
+            <!-- <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button> -->
             <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button>
         </ion-card-content>
+        
+        <!-- <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button> -->
 
-        <!-- <ion-button fill="clear">Action</ion-button> -->
     </ion-card>
 </template>
 
@@ -37,6 +39,11 @@ export default defineComponent({
             required: true,
         },
     },
+    // methods: {
+    //     imagePath(img) {
+    //         return require(`@/assets/${img}`);
+    //     }
+    // },
     components: { IonButton, IonCard, IonCardContent, IonCardHeader, 
         // IonCardSubtitle, 
         IonCardTitle,
@@ -48,10 +55,14 @@ export default defineComponent({
 
 <style scoped>
 ion-card {
-  margin-bottom: 16px;
+display: auto;
+  align-self: center;
+  width: 80%; 
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 ion-img {
-  height: 200px;
+  height: 100px;
   object-fit: cover;
 }
 /* ion-badge {
