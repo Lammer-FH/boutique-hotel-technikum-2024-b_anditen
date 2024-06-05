@@ -3,18 +3,14 @@
         <ion-img :src='room.getLocalImage()' :alt="room.title"></ion-img>
         <ion-card-header>
             <ion-card-title>{{ room.title }}</ion-card-title>
-            <!-- <ion-card-subtitle> {{ room.descritpion }}</ion-card-subtitle> -->
         </ion-card-header>
 
-        <ion-card-content>
-            <ion-label style="text-align: start;">{{ room.description }}</ion-label>
-            <!-- <ion-badge slot="end">{{ room.price }}</ion-badge> -->
-            <!-- <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button> -->
-            <ion-button style="text-align: end;" fill="clear" slot="end">Ab {{ room.pricePerNight }}€</ion-button>
+        <ion-card-content :fullwidth="true">
+            <div class="container">
+                <ion-label style="float:left">{{ room.description }}</ion-label>
+                <ion-button :router-link=getDetailString() slot="end" style="float:right">Ab {{ room.pricePerNight }}€</ion-button>
+            </div>
         </ion-card-content>
-        
-        <!-- <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button> -->
-
     </ion-card>
 </template>
 
@@ -23,13 +19,13 @@ import { IonButton,
     IonCard, 
     IonCardContent,
     IonCardHeader, 
-    //  IonCardSubtitle, 
     IonCardTitle,
     IonImg,
     IonLabel,
      } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Room from '../models/room';
+
 
 export default defineComponent({
     name: 'RoomCard',
@@ -39,34 +35,42 @@ export default defineComponent({
             required: true,
         },
     },
-    // methods: {
-    //     imagePath(img) {
-    //         return require(`@/assets/${img}`);
-    //     }
-    // },
-    components: { IonButton, IonCard, IonCardContent, IonCardHeader, 
+    methods: {
+        getDetailString(){
+            return "/room/" + this.room.id;
+        }
+    },
+    components: { IonButton, 
+        IonCard, 
+        IonCardContent, 
+        IonCardHeader, 
         // IonCardSubtitle, 
         IonCardTitle,
         IonImg,
         IonLabel
     },
 });
+
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 ion-card {
-display: auto;
+  display: auto;
   align-self: center;
   width: 80%; 
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
 ion-img {
-  height: 100px;
+  height: 10%;
   object-fit: cover;
 }
-/* ion-badge {
-  font-size: 1rem;
-  padding: 0.5rem;
-} */
 </style>

@@ -15,6 +15,7 @@
                 </ion-button>
 
                 <ion-modal :is-open="showPicker">
+
                     <ion-header>
                         <ion-toolbar>
                         <ion-title>Modal</ion-title>
@@ -24,18 +25,19 @@
                         </ion-toolbar>
                     </ion-header>
                     <ion-content class="ion-padding">
-                        <ion-datetime 
-                            ref="datepicker"
-                            presentation="date" 
-                            min=minDateString
-                            max=maxDateString
-                            :multiple="true" 
-                            :value=dateRange
-                            @ionChange="handleDateChange"
-                        />
+                        <div class="centered-container">
+                            <ion-datetime 
+                                ref="datepicker"
+                                presentation="date" 
+                                min="minDateString"
+                                max="maxDateString"
+                                :multiple="true" 
+                                :value=dateRange
+                                @ionChange="handleDateChange"
+                            />
+                        </div>
                     </ion-content>
                 </ion-modal>
-                
 
                 <RoomCard 
                 v-for="room in rooms"
@@ -65,10 +67,14 @@ import {
     IonTitle,
     IonPage 
 } from '@ionic/vue';
-
+import { format, parseISO } from 'date-fns';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
+import { roomStore } from '../store/rooms';
 import { ref } from 'vue';
+
+const store = roomStore();
+const rooms = store.rooms as Room[];
 
 const showPicker = ref(false);
 const setOpen = (open: boolean) => (showPicker.value = open);
@@ -76,11 +82,11 @@ const setOpen = (open: boolean) => (showPicker.value = open);
 const today = new Date();
 const minDate = new Date(today);
 minDate.setDate(today.getDate() + 1);
-const minDateString = minDate.toISOString()
+const minDateString = minDate.toISOString();
 
 const maxDate = new Date(today);
 maxDate.setMonth(today.getMonth() + 6);
-const maxDateString = maxDate.toISOString()
+const maxDateString = maxDate.toISOString();
 
 console.log(minDate + " " + maxDate);
 
@@ -93,45 +99,6 @@ const handleDateChange = (event: DatetimeChangeEvent) => {
         value.value = value.value.slice(0, 2);
     }
 };
-
-const rooms = ref([
-    new Room(
-        1,
-        'Zimmer 1',
-        'Doppelbettzimmer',
-        134,
-        ["Wlan"],
-        'hotel_room_beachfront.jpg',
-        true
-    ),
-    new Room(
-        2,
-        'Zimmer 2',
-        'Doppelbettzimmer',
-        102,
-        ["Wlan"],
-        'hotel_room_forest.jpg',
-        true
-    ),
-    new Room(
-        3,
-        'Zimmer 3',
-        'Doppelbettzimmer',
-        97,
-        ["Wlan"],
-        'hotel_room_mountain.jpg',
-        true
-    ),
-    new Room(
-        4,
-        'Zimmer 4',
-        'Doppelbettzimmer',
-        111,
-        ["Wlan"],
-        'hotel_room_sea.jpg',
-        true
-    ),
-] as Room[]);
 </script>
 
 <style scoped>

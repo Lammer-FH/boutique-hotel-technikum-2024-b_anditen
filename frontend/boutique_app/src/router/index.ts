@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
-import AboutPage from '../views/AboutPage.vue';
-import ImprintPage from '../views/ImprintPage.vue';
 import RoomPage from '../views/RoomPage.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -20,11 +18,11 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/about',
-    component: AboutPage
+    component: () => import('../views/AboutPage.vue')
   },
   {
     path: '/imprint',
-    component: ImprintPage
+    component: () => import('../views/ImprintPage.vue')
   }
 ]
 
