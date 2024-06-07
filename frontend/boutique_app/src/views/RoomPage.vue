@@ -72,7 +72,7 @@ import {
 import { format, parseISO } from 'date-fns';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import { useRoomStore } from '../store/roomsStore';
+import { useRoomStore } from '@/stores/roomsStore';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();

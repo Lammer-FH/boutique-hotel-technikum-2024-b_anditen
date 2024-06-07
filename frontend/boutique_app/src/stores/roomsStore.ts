@@ -50,16 +50,4 @@ export const useRoomStore = defineStore('rooms', {
             return this.rooms.find(room => room.id === id);
         },
     }
-    // const rooms = ref();
-
-    // return { rooms };
-//   state: () => ({
-//     room: {
-//       name: '',
-//       description: '',
-//       owner: '',
-//       members: [],
-//       messages: [],
-//     },
-//   }),
 });
