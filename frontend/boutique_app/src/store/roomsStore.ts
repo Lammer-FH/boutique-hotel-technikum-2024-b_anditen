@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import Room from '../models/room';
 
-export const roomStore = defineStore('rooms', {
+export const useRoomStore = defineStore('rooms', {
     state: () => {
         return {
             rooms: [
@@ -46,11 +46,9 @@ export const roomStore = defineStore('rooms', {
     },
     actions: {
         getRoom(id: number) {
+            console.log('getRoom called with id:'+ id);
             return this.rooms.find(room => room.id === id);
         },
-        // fetchRooms() {
-        //     return this.rooms;
-        // }
     }
     // const rooms = ref();
 

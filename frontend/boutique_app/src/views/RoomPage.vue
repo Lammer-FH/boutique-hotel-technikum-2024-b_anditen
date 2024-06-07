@@ -65,15 +65,19 @@ import {
     IonToolbar, 
     IonContent, 
     IonTitle,
-    IonPage 
+    IonPage,
+    IonDatetime,
+    IonMenuButton 
 } from '@ionic/vue';
 import { format, parseISO } from 'date-fns';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import { roomStore } from '../store/rooms';
+import { useRoomStore } from '../store/roomsStore';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
-const store = roomStore();
+const store = useRoomStore();
 const rooms = store.rooms as Room[];
 
 const showPicker = ref(false);
