@@ -1,8 +1,8 @@
 <template>
     <ion-card color="light">
-        <ion-img :src='room.getLocalImage()' :alt="room.title"></ion-img>
+        <ion-img :src='room.imageUrl' :alt="room.name"></ion-img>
         <ion-card-header>
-            <ion-card-title>{{ room.title }}</ion-card-title>
+            <ion-card-title>{{ room.name }}</ion-card-title>
         </ion-card-header>
 
         <ion-card-content :fullwidth="true">
