@@ -26,7 +26,15 @@
                     </ion-header>
                     <ion-content class="ion-padding">
                         <div class="centered-container">
-                            <ion-datetime 
+                            <DatePicker
+                                id="datetimepicker"
+                                min="2023-01-01T00:00:00"
+                                :start="startDate"
+                                :end="endDate"
+                                @update:start="(d) => (startDate = d)"
+                                @update:end="(d) => (endDate = d)"
+                            />
+                            <!-- <ion-datetime 
                                 ref="datepicker"
                                 presentation="date" 
                                 min="minDateString"
@@ -34,7 +42,7 @@
                                 :multiple="true" 
                                 :value=dateRange
                                 @ionChange="handleDateChange"
-                            />
+                            /> -->
                         </div>
                     </ion-content>
                 </ion-modal>
@@ -50,13 +58,6 @@
 </template>
 
 <script lang="ts" setup>
-// Definiere ein Interface für das CustomEvent
-interface DatetimeChangeEvent extends CustomEvent {
-  detail: {
-    value: string[];
-  };
-}
-
 import { 
     IonButtons, 
     IonButton, 
@@ -66,16 +67,17 @@ import {
     IonContent, 
     IonTitle,
     IonPage,
-    IonDatetime,
+    // IonDatetime,
     IonMenuButton 
 } from '@ionic/vue';
-import { format, parseISO } from 'date-fns';
+import DatePicker from '@/components/DatePicker.vue';
+// import { format, parseISO } from 'date-fns';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
 import { useRoomStore } from '@/stores/roomsStore';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-const router = useRouter();
+// import { useRouter } from 'vue-router';
+// const router = useRouter();
 
 const store = useRoomStore();
 const rooms = store.rooms as Room[];
@@ -83,26 +85,29 @@ const rooms = store.rooms as Room[];
 const showPicker = ref(false);
 const setOpen = (open: boolean) => (showPicker.value = open);
 
-const today = new Date();
-const minDate = new Date(today);
-minDate.setDate(today.getDate() + 1);
-const minDateString = minDate.toISOString();
+const startDate = ref<string>('2023-10-01');
+const endDate = ref<string>('2023-10-23');
 
-const maxDate = new Date(today);
-maxDate.setMonth(today.getMonth() + 6);
-const maxDateString = maxDate.toISOString();
+// const today = new Date();
+// const minDate = new Date(today);
+// minDate.setDate(today.getDate() + 1);
+// const minDateString = minDate.toISOString();
 
-console.log(minDate + " " + maxDate);
+// const maxDate = new Date(today);
+// maxDate.setMonth(today.getMonth() + 6);
+// const maxDateString = maxDate.toISOString();
 
-const datepicker = ref(null);
-const dateRange = ref<string[]>([]);
+// console.log(minDate + " " + maxDate);
 
-const handleDateChange = (event: DatetimeChangeEvent) => {
-    const value = event.detail
-    if (value.value.length > 2) {
-        value.value = value.value.slice(0, 2);
-    }
-};
+// const datepicker = ref(null);
+// const dateRange = ref<string[]>([]);
+
+// const handleDateChange = (event: DatetimeChangeEvent) => {
+//     const value = event.detail
+//     if (value.value.length > 2) {
+//         value.value = value.value.slice(0, 2);
+//     }
+// };
 </script>
 
 <style scoped>
