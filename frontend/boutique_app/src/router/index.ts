@@ -4,7 +4,7 @@ import HomePage from '../views/HomePage.vue';
 import AboutPage from '../views/AboutPage.vue';
 import ImprintPage from '../views/ImprintPage.vue';
 import RoomPage from '@/views/RoomPage.vue';
-import GoogleMaps from "@/components/GoogleMaps.vue";
+import ConfirmationView from "@/views/ConfirmationView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -28,8 +28,8 @@ const routes: Array<RouteRecordRaw> = [
     component: ImprintPage
   },
   {
-    path: '/route', // TODO remove and embed in other component
-    component: GoogleMaps
+    path: '/confirmation',
+    component: ConfirmationView
   },
 ]
 

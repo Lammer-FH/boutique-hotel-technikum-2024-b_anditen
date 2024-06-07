@@ -14,6 +14,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  optimizeDeps: {
+    include: ["@fawmi/vue-google-maps", "fast-deep-equal"],
+  },
   test: {
     globals: true,
     environment: 'jsdom'
