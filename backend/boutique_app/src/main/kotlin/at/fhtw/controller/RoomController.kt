@@ -2,12 +2,11 @@ package at.fhtw.controller
 
 import at.fhtw.dtos.responses.Room
 import at.fhtw.model.repositories.RoomRepository
+import org.apache.commons.io.IOUtils
 import org.springframework.format.annotation.DateTimeFormat
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.*
+import java.io.InputStream
 import java.sql.Date
 import java.time.LocalDate
 
@@ -28,4 +27,15 @@ class RoomController(val roomRepository: RoomRepository) {
         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) end: LocalDate
     ): Boolean =
         roomRepository.checkIfRoomIsAvailable(id, Date.valueOf(start), Date.valueOf(end))
+
+    @ResponseBody
+    @GetMapping(value = ["/{id}/image"], produces = [MediaType.IMAGE_JPEG_VALUE])
+    fun getImageWithMediaType(@PathVariable id: String): ByteArray {
+        val imagePath = "/images/rooms/hotel_room_$id.jpg"
+        val `in`: InputStream = this::class.java.getResourceAsStream(imagePath)
+            ?: throw ImageNotFoundException(id)
+        return IOUtils.toByteArray(`in`)
+    }
 }
+
+class ImageNotFoundException(val id: String) : RuntimeException()

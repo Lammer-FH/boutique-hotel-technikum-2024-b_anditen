@@ -11,5 +11,5 @@ class RoomType(
     ) val id: Long,
     val name: String,
     val description: String,
-    @ManyToMany val standardFeatures: Set<RoomFeature>,
+    @ManyToMany val standardExtras: Set<RoomExtra>,
 )

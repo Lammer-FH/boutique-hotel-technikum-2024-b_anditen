@@ -10,10 +10,13 @@ class Room(
         name = "native",
         strategy = "native"
     ) val id: Long,
-    @ManyToMany val features: Set<RoomFeature>,
-    @OneToMany(
-        mappedBy = "room",
-    ) val beds: Set<BedsInRooms>,
-    @ManyToOne(optional = false) val type: RoomType,
+    val name: String,
+    val pricePerNight: Double,
     val imageUrL: String?,
+    @ManyToMany
+    val extras: Set<RoomExtra>,
+    @ManyToOne(optional = false)
+    val type: RoomType,
+    @OneToMany(mappedBy = "room")
+    val beds: Set<BedsInRooms>,
 )

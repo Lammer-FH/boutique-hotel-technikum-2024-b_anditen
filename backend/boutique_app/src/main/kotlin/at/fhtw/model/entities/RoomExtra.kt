@@ -7,7 +7,7 @@ import jakarta.persistence.Id
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-class RoomFeature(
+class RoomExtra(
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "native") @GenericGenerator(
         name = "native",
         strategy = "native"
