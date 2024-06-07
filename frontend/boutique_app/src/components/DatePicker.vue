@@ -2,7 +2,7 @@
     <ion-datetime
       class="clink-date-time-range"
       presentation="date"
-      locale="es-ES"
+      locale="en-US"
       multiple
       :value="currentUserSelection"
       v-on:ion-change="handleDateChange"

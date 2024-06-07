@@ -33,31 +33,32 @@ import Room from '../models/room';
 // const router = useRouter();
 
 export default defineComponent({
-    name: 'RoomCard',
-    props: {
-        room: {
-            type: Room,
-            required: true,
-        },
+  name: "RoomCard",
+  props: {
+    room: {
+      type: Room,
+      required: true,
     },
-    methods: {
-        getDetailString(){
-            return "/room/" + this.room.id;
-        }
-        // pushDetailRoomPage() {
-        //     console.log("push detail page");
-        //     router.push({name: 'DetailRoomPage', params: {id: this.room.id}})
-        // }
+  },
+  methods: {
+    getDetailString() {
+      return "/room/" + this.room.id;
     },
-    components: { IonButton, 
-        IonCard, 
-        IonCardContent, 
-        IonCardHeader, 
-        // IonCardSubtitle, 
-        IonCardTitle,
-        IonImg,
-        IonLabel
-    },
+    // pushDetailRoomPage() {
+    //     console.log("push detail page");
+    //     router.push({name: 'DetailRoomPage', params: {id: this.room.id}})
+    // }
+  },
+  components: {
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    // IonCardSubtitle,
+    IonCardTitle,
+    IonImg,
+    IonLabel,
+  },
 });
 
 </script>

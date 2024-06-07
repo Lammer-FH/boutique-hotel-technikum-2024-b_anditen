@@ -28,7 +28,7 @@
                         <div class="centered-container">
                             <DatePicker
                                 id="datetimepicker"
-                                min="2023-01-01T00:00:00"
+                                min="2024-06-01T00:00:00"
                                 :start="startDate"
                                 :end="endDate"
                                 @update:start="(d) => (startDate = d)"
@@ -38,11 +38,17 @@
                     </ion-content>
                 </ion-modal>
 
-                <RoomCard 
-                v-for="room in rooms"
-                :key="room.id"
-                :room="room"
-                />
+                <div v-if="rooms">
+                    <RoomCard 
+                    v-for="room in rooms"
+                    :key="room.id"
+                    :room="room"
+                    />
+                    <p>test</p>
+                </div>
+                <div v-else>
+                    <p>Loading...</p>
+                </div>
             </div>
         </ion-content>
     </ion-page>
@@ -63,11 +69,16 @@ import {
 import DatePicker from '@/components/DatePicker.vue';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import { useRoomStore } from '../store/roomsStore';
-import { ref } from 'vue';
+import { useRoomStore } from '../stores/roomsStore';
+import { onMounted, ref } from 'vue';
 
 const store = useRoomStore();
+onMounted(() => {
+    store.fetchRooms();
+});
+
 const rooms = store.rooms as Room[];
+console.log(rooms);
 
 const showPicker = ref(false);
 const setOpen = (open: boolean) => (showPicker.value = open);
