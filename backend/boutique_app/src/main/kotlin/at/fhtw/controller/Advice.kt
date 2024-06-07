@@ -12,6 +12,16 @@ class Advice {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(RoomUnavailableException::class)
     fun handleConflict(exception: RoomUnavailableException): ResponseEntity<String> {
-        return ResponseEntity("Rooms: " + exception.roomIds.joinToString(",") + " are not available", HttpHeaders(), HttpStatus.CONFLICT)
+        return ResponseEntity(
+            "Rooms: " + exception.roomIds.joinToString(",") + " are not available",
+            HttpHeaders(),
+            HttpStatus.CONFLICT
+        )
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ImageNotFoundException::class)
+    fun handleConflict(exception: ImageNotFoundException): ResponseEntity<String> {
+        return ResponseEntity("Image id not found: " + exception.id, HttpHeaders(), HttpStatus.NOT_FOUND)
     }
 }
