@@ -104,7 +104,8 @@ export default {
       console.log(room.value);
     };
 
-    onMounted(() => {
+    onMounted( async () => {
+      await roomStore.fetchRooms();
       fetchRoom();
     });
 
