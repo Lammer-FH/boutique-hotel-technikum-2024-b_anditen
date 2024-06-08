@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 class Advice {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(RoomUnavailableException::class)
-    fun handleConflict(exception: RoomUnavailableException): ResponseEntity<String> {
+    fun handleImageNotFound(exception: RoomUnavailableException): ResponseEntity<String> {
         return ResponseEntity(
             "Rooms: " + exception.roomIds.joinToString(",") + " are not available",
             HttpHeaders(),
@@ -21,7 +21,13 @@ class Advice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ImageNotFoundException::class)
-    fun handleConflict(exception: ImageNotFoundException): ResponseEntity<String> {
+    fun handleImageNotFound(exception: ImageNotFoundException): ResponseEntity<String> {
         return ResponseEntity("Image id not found: " + exception.id, HttpHeaders(), HttpStatus.NOT_FOUND)
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(RoomNotFoundException::class)
+    fun handleRoomNotFound(exception: RoomNotFoundException): ResponseEntity<String> {
+        return ResponseEntity("Room not found: " + exception.id, HttpHeaders(), HttpStatus.NOT_FOUND)
     }
 }

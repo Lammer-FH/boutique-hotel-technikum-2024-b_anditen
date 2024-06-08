@@ -2,17 +2,13 @@ package at.fhtw.model.entities
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.Min
-import org.aspectj.lang.annotation.Before
-import org.checkerframework.checker.units.qual.C
-import org.checkerframework.common.value.qual.IntRange
 import org.hibernate.annotations.Check
 import org.hibernate.annotations.Checks
 import org.hibernate.annotations.GenericGenerator
-import org.jetbrains.annotations.NotNull
 import java.sql.Date
 
 @Entity
-@Table()
+@Table
 class Booking(
     @Column(nullable = false) val customer: Customer,
     @Column(nullable = false) @Min(1) val numberOfGuests: Int,
@@ -22,6 +18,7 @@ class Booking(
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "native") @GenericGenerator(
         name = "native", strategy = "native"
     ) val id: Long? = null,
+    @Column(nullable = false) val breakfast: Boolean
 )
 
 @Embeddable
