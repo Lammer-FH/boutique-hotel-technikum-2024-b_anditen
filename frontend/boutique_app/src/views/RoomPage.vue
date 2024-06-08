@@ -1,60 +1,128 @@
 <template>
-    <ion-page>
-        <ion-header>
-            <ion-toolbar>
-                <ion-buttons slot="start">
-                    <ion-menu-button></ion-menu-button>
-                </ion-buttons>
-                <ion-title>Zimmer</ion-title>
-            </ion-toolbar>
-        </ion-header>
-
-        <ion-button>
-            Pick the Date
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Zimmer</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding centered-content" :fullscreen="true">
+      <div class="centered-container">
+        <ion-button id="open-modal" style="width: 80%;" @click="setOpen(true)">
+          Pick the Date
         </ion-button>
 
-        <RoomCard 
-        v-for="room in rooms"
-        :key="room.id"
-        :room="room"
-        />
-    </ion-page>
+        <ion-modal :is-open="showPicker">
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Modal</ion-title>
+              <ion-buttons slot="end">
+                <ion-button @click="setOpen(false)">Close</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <div class="centered-container">
+              <DatePicker
+                  id="datetimepicker"
+                  min="2024-06-01T00:00:00"
+                  :start="startDate"
+                  :end="endDate"
+                  @update:start="(d) => (startDate = d)"
+                  @update:end="(d) => (endDate = d)"
+              />
+            </div>
+          </ion-content>
+        </ion-modal>
+
+        <div v-if="rooms.length" >
+            <ion-list>
+                <ion-item v-for="room in rooms"
+                        :key="room.id" lines="none">
+                    <RoomCard
+                        :room="room"
+                    /> 
+                </ion-item>
+            </ion-list>
+            
+            <ion-infinite-scroll @ionInfinite="loadMoreRooms">
+                <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </div>
+        <div v-else>
+            <ion-list>
+                <ion-item>
+                    <p>Loading...</p>
+                </ion-item>
+            </ion-list>
+        </div>
+      </div> 
+    </ion-content>
+  </ion-page>
 </template>
 
-<script setup lang="ts">
-import {IonPage, IonButton} from '@ionic/vue';
-import RoomCard from '@/components/RoomCard.vue';
+<script lang="ts" setup>
+import {
+  IonButtons,
+  IonButton,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonContent,
+  IonTitle,
+  IonPage,
+  IonMenuButton,
+  IonList,
+  IonItem,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+} from '@ionic/vue';
+import DatePicker from '@/components/DatePicker.vue';
+import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import { ref } from 'vue'
+import { useRoomStore } from '../stores/roomsStore';
+import { onMounted, ref } from 'vue';
 
-const rooms = ref([
-    new Room(
-        1,
-        'Zimmer 1',
-        'Doppelbettzimmer',
-        134,
-        ["Wlan"],
-        '../assets/hotel_room_beachfront.jpg',
-        true
-    ),
-    new Room(
-        2,
-        'Zimmer 2',
-        'Doppelbettzimmer',
-        102,
-        ["Wlan"],
-        '../assets/hotel_room_forest.jpg',
-        true
-    ),
+let shownRooms = 5;
+const store = useRoomStore();
+const rooms = ref<Room[]>([]);
+const showPicker = ref(false);
+const setOpen = (open: boolean) => (showPicker.value = open);
 
-    new Room(
-        3,
-        'Zimmer 3',
-        'Doppelbettzimmer',
-        97,
-        ["Wlan"],
-        '../assets/hotel_room_mountain.jpg',
-        true
-    ),
-] as Room[]);
+const startDate = ref<string>('2024-06-01');
+const endDate = ref<string>('2024-12-23');
+
+const loadMoreRooms = async (event: CustomEvent<void>) => {
+  shownRooms += 5;
+  rooms.value = store.rooms.slice(0, shownRooms);
+  (event.target as HTMLIonInfiniteScrollElement).complete();
+};
+
+onMounted(async () => {
+  await store.fetchRooms();
+  rooms.value = store.rooms.slice(0, shownRooms);
+});
+
 </script>
+
+<style scoped>
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}
+
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  width: 100%;
+}
+
+</style>

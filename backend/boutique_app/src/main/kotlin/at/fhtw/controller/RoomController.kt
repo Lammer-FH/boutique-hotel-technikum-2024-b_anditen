@@ -12,6 +12,7 @@ import java.time.LocalDate
 
 @RequestMapping("/rooms")
 @RestController
+@CrossOrigin(origins = ["http://localhost:8100"])
 class RoomController(val roomRepository: RoomRepository) {
 
     @GetMapping()
