@@ -8,7 +8,7 @@
         <ion-title>Zimmer</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding content-centered" :fullscreen="true">
+    <ion-content class="ion-padding" :fullscreen="true">
       <div class="centered-container">
         <ion-button id="open-modal" style="width: 80%;" @click="setOpen(true)">
           Pick the Date
@@ -37,7 +37,7 @@
           </ion-content>
         </ion-modal>
 
-        <div v-if="rooms.length">
+        <div v-if="rooms.length" class="content-centered">
           <RoomCard
               v-for="room in rooms"
               :key="room.id"
@@ -75,8 +75,8 @@ const rooms = ref<Room[]>([]);
 const showPicker = ref(false);
 const setOpen = (open: boolean) => (showPicker.value = open);
 
-const startDate = ref<string>('2023-10-01');
-const endDate = ref<string>('2023-10-23');
+const startDate = ref<string>('2024-06-01');
+const endDate = ref<string>('2024-12-23');
 
 onMounted(async () => {
   await store.fetchRooms();

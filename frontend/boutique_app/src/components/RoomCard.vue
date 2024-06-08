@@ -5,14 +5,9 @@
             <ion-card-title>{{ room.name }}</ion-card-title>
         </ion-card-header>
 
-        <ion-card-content :fullwidth="true">
-            <div class="container">
-                <ion-label style="float:left">{{ room.description }}</ion-label>
-                <!-- <ion-router-link :to="`/details/{{room.id}}`" style="float:right"> -->
-                <ion-button :router-link=getDetailString() slot="end" style="float:right">Ab {{ room.pricePerNight }}€</ion-button>
-                <!-- </ion-router-link> -->
-                <!-- @click="pushDetailRoomPage()" router-link=getDetailString() {name: 'room', params: {id: room.id}} @click="() => router.push({name:'room', params: {id: room.id}})"-->
-            </div>
+        <ion-card-content :fullwidth="true" class="container">
+            <ion-label style="float:left">{{ room.description }}</ion-label>
+            <ion-button :router-link=getDetailString() slot="end" style="float:right">Ab {{ room.pricePerNight }}€</ion-button>
         </ion-card-content>
     </ion-card>
 
@@ -29,8 +24,6 @@ import { IonButton,
      } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import Room from '../models/room';
-// import { useRouter } from 'vue-router';
-// const router = useRouter();
 
 export default defineComponent({
   name: "RoomCard",
@@ -44,17 +37,12 @@ export default defineComponent({
     getDetailString() {
       return "/room/" + this.room.id;
     },
-    // pushDetailRoomPage() {
-    //     console.log("push detail page");
-    //     router.push({name: 'DetailRoomPage', params: {id: this.room.id}})
-    // }
   },
   components: {
     IonButton,
     IonCard,
     IonCardContent,
     IonCardHeader,
-    // IonCardSubtitle,
     IonCardTitle,
     IonImg,
     IonLabel,

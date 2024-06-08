@@ -27,21 +27,3 @@ export default class Room {
         return new URL(`../assets/${this.imageUrl}`, import.meta.url).pathname;
     }
 }
-
-// export interface Room {
-//     id: number;
-//     name: string;
-//     // pricePerNightString: string;
-//     pricePerNight: number;
-//     type: string;
-//     description: string;
-//     beds: [{
-//         name: string;
-//         size: number;
-//         amount: number;
-//     }];
-//     extras: [{
-//         name: string;
-//     }];
-//     imageUrl: string;
-// }
