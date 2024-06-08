@@ -29,7 +29,7 @@ export const useRoomStore = defineStore('rooms', {
                     'Content-Type': 'application/json'
                 }
             });
-            this.rooms = response.data.map((roomData: any) => new Room(roomData.id, roomData.name, roomData.description, roomData.pricePerNight, roomData.type, roomData.beds, roomData.extras, roomData.imageUrl, roomData.available));
+            this.rooms = response.data.map((roomData: any) => new Room(roomData.id, roomData.name, roomData.description, roomData.pricePerNight, roomData.type, roomData.beds, roomData.extras, roomData.imageUrl));
             console.log('Rooms: ', this.rooms);
             this.loading = false;
 

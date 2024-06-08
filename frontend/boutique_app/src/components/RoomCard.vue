@@ -62,7 +62,7 @@ export default defineComponent({
 ion-card {
   display: auto;
   align-self: center;
-  width: 80%; 
+  width: 100%; 
   margin-top: 8px;
   margin-bottom: 8px;
 }

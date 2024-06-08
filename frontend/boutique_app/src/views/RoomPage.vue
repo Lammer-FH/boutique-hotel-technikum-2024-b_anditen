@@ -8,7 +8,7 @@
         <ion-title>Zimmer</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content class="ion-padding" :fullscreen="true">
+    <ion-content class="ion-padding centered-content" :fullscreen="true">
       <div class="centered-container">
         <ion-button id="open-modal" style="width: 80%;" @click="setOpen(true)">
           Pick the Date
@@ -37,17 +37,28 @@
           </ion-content>
         </ion-modal>
 
-        <div v-if="rooms.length" class="content-centered">
-          <RoomCard
-              v-for="room in rooms"
-              :key="room.id"
-              :room="room"
-          />
+        <div v-if="rooms.length" >
+            <ion-list>
+                <ion-item v-for="room in rooms"
+                        :key="room.id" lines="none">
+                    <RoomCard
+                        :room="room"
+                    /> 
+                </ion-item>
+            </ion-list>
+            
+            <ion-infinite-scroll @ionInfinite="loadMoreRooms">
+                <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
         </div>
         <div v-else>
-          <p>Loading...</p>
+            <ion-list>
+                <ion-item>
+                    <p>Loading...</p>
+                </ion-item>
+            </ion-list>
         </div>
-      </div>
+      </div> 
     </ion-content>
   </ion-page>
 </template>
@@ -62,7 +73,11 @@ import {
   IonContent,
   IonTitle,
   IonPage,
-  IonMenuButton
+  IonMenuButton,
+  IonList,
+  IonItem,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
 } from '@ionic/vue';
 import DatePicker from '@/components/DatePicker.vue';
 import RoomCard from '../components/RoomCard.vue';
@@ -70,6 +85,7 @@ import Room from '../models/room';
 import { useRoomStore } from '../stores/roomsStore';
 import { onMounted, ref } from 'vue';
 
+let shownRooms = 5;
 const store = useRoomStore();
 const rooms = ref<Room[]>([]);
 const showPicker = ref(false);
@@ -78,19 +94,26 @@ const setOpen = (open: boolean) => (showPicker.value = open);
 const startDate = ref<string>('2024-06-01');
 const endDate = ref<string>('2024-12-23');
 
+const loadMoreRooms = async (event: CustomEvent<void>) => {
+  shownRooms += 5;
+  rooms.value = store.rooms.slice(0, shownRooms);
+  (event.target as HTMLIonInfiniteScrollElement).complete();
+};
+
 onMounted(async () => {
   await store.fetchRooms();
-  rooms.value = store.rooms;
+  rooms.value = store.rooms.slice(0, shownRooms);
 });
 
 </script>
 
 <style scoped>
-.content-centered {
+.centered-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   height: 100%;
 }
 
@@ -98,6 +121,8 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: center;
   width: 100%;
 }
+
 </style>

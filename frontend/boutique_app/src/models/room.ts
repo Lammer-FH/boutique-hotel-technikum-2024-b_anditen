@@ -12,7 +12,7 @@ export default class Room {
     extras: Extras;
     imageUrl: string;
 
-    constructor(id: number, name: string, description: string, pricePerNight: number, type: string, beds: Beds, extras: Extras, imageUrl: string, available: boolean) {
+    constructor(id: number, name: string, description: string, pricePerNight: number, type: string, beds: Beds, extras: Extras, imageUrl: string) {
         this.id = id,
         this.name = name,
         this.pricePerNight = pricePerNight,

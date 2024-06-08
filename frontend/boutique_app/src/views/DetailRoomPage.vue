@@ -18,7 +18,9 @@
         <p><strong>Inkl. Inhalte:</strong></p>
         <ion-list>
           <ion-item v-for="extras in room.extras">
-            <ion-label>• {{ extras.name }}</ion-label>
+            <ion-label>
+              <span class="material-icons icon-size">{{ mapNameToIcon(extras.name) }}</span>
+               - {{ extras.name }}</ion-label>
           </ion-item>
         </ion-list>
       </div>
@@ -99,6 +101,7 @@ export default {
       if (!room.value) {
         console.error(`Room with ID ${roomId} not found`);
       }
+      console.log(room.value);
     };
 
     onMounted(() => {
@@ -108,6 +111,30 @@ export default {
     return {
       room
     };
+  },
+  methods: {
+    mapNameToIcon(name:string): string {
+      console.log(name);
+        switch (name){
+            case 'Balcony': return "balcony"
+            case 'Sea view': return "waves"
+            case 'Mountain view': return "filter_hdr"
+            case 'City view': return "location_city"
+            case 'Garden view': return "yard"
+            case 'Pool view': return "pool"
+            case 'Terrace': return "deck"
+            case 'Patio': return "deck"
+            case 'Kitchen': return "kitchen"
+            case 'Living room': return "weekend"
+            case 'Dining room': return "dinner_dining"
+            case 'Fireplace': return "fireplace"
+            case 'Hot tub': return "hot_tub"
+            case 'Air conditioning': return "air"
+            case 'WIFI': return "wifi"
+            case 'Extra large toilet': return "wc"
+            default: return "home"
+        }
+    }
   }
 };
 </script>
@@ -157,13 +184,22 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #20c997;
   color: white;
-  border-radius: 0; /* Damit der Button über die gesamte Breite geht */
-  z-index: 1000; /* Damit der Button immer oben bleibt */
+  border-radius: 0;
+  z-index: 1000;
 }
 
 ion-list{
   margin-bottom: 4%;
+}
+
+ion-label {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.icon-size {
+  material-icons-font-size: 24px;
+  vertical-align: middle;
 }
 </style>
