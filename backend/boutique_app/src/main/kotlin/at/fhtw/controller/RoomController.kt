@@ -18,7 +18,7 @@ class RoomController(val roomRepository: RoomRepository) {
     fun getAllRooms(): Iterable<Room> = roomRepository.findAll().map { Room.from(it) }
 
     @GetMapping("/{id}")
-    fun getRoomById(@PathVariable id: Long): Room = roomRepository.findById(id).map { Room.from(it) }.orElseThrow()
+    fun getRoomById(@PathVariable id: Long): Room = roomRepository.findById(id).map { Room.from(it) }.orElseThrow() { RoomNotFoundException(id)}
 
     @GetMapping("/{id}/available")
     fun isRoomAvailable(
