@@ -17,10 +17,10 @@
         <p><strong>Bettentyp:</strong> {{ room.type }}</p>
         <p><strong>Inkl. Inhalte:</strong></p>
         <ion-list>
-          <ion-item v-for="extras in room.extras">
+          <ion-item v-for="extra in room.extras" :key="extra.name">
             <ion-label>
-              <span class="material-icons icon-size">{{ mapNameToIcon(extras.name) }}</span>
-               - {{ extras.name }}</ion-label>
+              <span class="material-icons icon-size">{{ mapNameToIcon(extra.name) }}</span>
+               - {{ extra.name }}</ion-label>
           </ion-item>
         </ion-list>
       </div>
@@ -66,6 +66,7 @@ import {
 import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {useRoomStore} from '@/stores/roomsStore';
+import Room from '@/models/room';
 
 export default {
   name: 'DetailRoomPage',
@@ -93,11 +94,11 @@ export default {
   setup() {
     const route = useRoute();
     const roomStore = useRoomStore();
-    const room = ref(null);
+    const room = ref<Room | null>(null);
 
     const fetchRoom = () => {
-      const roomId = parseInt(route.params.id, 10);
-      room.value = roomStore.getRoom(roomId);
+      const roomId = parseInt(route.params.id[0], 10);
+      room.value = roomStore.getRoom(roomId) ?? null;
       if (!room.value) {
         console.error(`Room with ID ${roomId} not found`);
       }
