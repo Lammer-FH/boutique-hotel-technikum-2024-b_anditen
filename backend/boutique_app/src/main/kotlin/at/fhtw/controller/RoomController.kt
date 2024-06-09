@@ -15,10 +15,29 @@ import java.time.LocalDate
 class RoomController(val roomRepository: RoomRepository) {
 
     @GetMapping()
-    fun getAllRooms(): Iterable<Room> = roomRepository.findAll().map { Room.from(it) }
+    fun getAllRooms(
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) start: LocalDate?,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) end: LocalDate?
+    ): Iterable<Room> {
+        var rooms = roomRepository.findAll().map { Room.from(it) }
+        if (start != null && end != null) {
+            rooms = rooms.map {
+                it.copy(
+                    available = roomRepository.checkIfRoomIsAvailable(
+                        it.id,
+                        Date.valueOf(start),
+                        Date.valueOf(end)
+                    )
+                )
+            }
+        }
+
+        return rooms
+    }
 
     @GetMapping("/{id}")
-    fun getRoomById(@PathVariable id: Long): Room = roomRepository.findById(id).map { Room.from(it) }.orElseThrow() { RoomNotFoundException(id)}
+    fun getRoomById(@PathVariable id: Long): Room =
+        roomRepository.findById(id).map { Room.from(it) }.orElseThrow() { RoomNotFoundException(id) }
 
     @GetMapping("/{id}/available")
     fun isRoomAvailable(

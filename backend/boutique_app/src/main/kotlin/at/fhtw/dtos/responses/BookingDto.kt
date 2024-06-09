@@ -14,7 +14,14 @@ data class BookingDto(
 ) {
     companion object {
         fun from(old: Booking): BookingDto {
-            return BookingDto(old.customer, old.numberOfGuests, old.end, old.rooms.map { Room.from(it) }.toSet(), old.id, old.breakfast)
+            return BookingDto(
+                old.customer,
+                old.numberOfGuests,
+                old.end,
+                old.rooms.map { Room.from(it) }.toSet(),
+                old.id,
+                old.breakfast
+            )
         }
     }
 }
