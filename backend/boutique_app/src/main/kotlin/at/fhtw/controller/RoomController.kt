@@ -16,8 +16,8 @@ class RoomController(val roomRepository: RoomRepository) {
 
     @GetMapping()
     fun getAllRooms(
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) start: LocalDate?,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) end: LocalDate?
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) start: LocalDate?,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) end: LocalDate?
     ): Iterable<Room> {
         var rooms = roomRepository.findAll().map { Room.from(it) }
         if (start != null && end != null) {
