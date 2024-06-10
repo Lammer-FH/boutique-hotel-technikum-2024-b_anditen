@@ -11,6 +11,7 @@ export default class Room {
   beds: Beds;
   extras: Extras[];
   imageUrl: string;
+  private availability: boolean | null;
 
   constructor(
     id: number,
@@ -20,7 +21,8 @@ export default class Room {
     type: string,
     beds: Beds,
     extras: Extras[],
-    imageUrl: string
+    imageUrl: string,
+    availability: boolean | null
   ) {
     (this.id = id),
       (this.name = name),
@@ -29,7 +31,8 @@ export default class Room {
       (this.description = description),
       (this.beds = beds),
       (this.extras = extras),
-      (this.imageUrl = imageUrl);
+      (this.imageUrl = imageUrl),
+      (this.availability = availability);
   }
 
   getLocalImage(): string {

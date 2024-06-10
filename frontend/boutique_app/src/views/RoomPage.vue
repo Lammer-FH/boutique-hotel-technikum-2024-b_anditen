@@ -10,55 +10,29 @@
     </ion-header>
     <ion-content class="ion-padding centered-content" :fullscreen="true">
       <div class="centered-container">
-        <ion-button id="open-modal" style="width: 80%;" @click="setOpen(true)">
-          Pick the Date
-        </ion-button>
-
-        <ion-modal :is-open="showPicker">
-          <ion-header>
-            <ion-toolbar>
-              <ion-title>Modal</ion-title>
-              <ion-buttons slot="end">
-                <ion-button @click="setOpen(false)">Close</ion-button>
-              </ion-buttons>
-            </ion-toolbar>
-          </ion-header>
-          <ion-content class="ion-padding">
-            <div class="centered-container">
-              <DatePicker
-                  id="datetimepicker"
-                  min="2024-06-01T00:00:00"
-                  :start="startDate"
-                  :end="endDate"
-                  @update:start="(d) => (startDate = d)"
-                  @update:end="(d) => (endDate = d)"
+        <DateRangePicker/>
+        <div v-if="rooms.length">
+          <ion-list>
+            <ion-item v-for="room in rooms"
+                      :key="room.id" lines="none">
+              <RoomCard
+                  :room="room"
               />
-            </div>
-          </ion-content>
-        </ion-modal>
+            </ion-item>
+          </ion-list>
 
-        <div v-if="rooms.length" >
-            <ion-list>
-                <ion-item v-for="room in rooms"
-                        :key="room.id" lines="none">
-                    <RoomCard
-                        :room="room"
-                    /> 
-                </ion-item>
-            </ion-list>
-            
-            <ion-infinite-scroll @ionInfinite="loadMoreRooms">
-                <ion-infinite-scroll-content></ion-infinite-scroll-content>
-            </ion-infinite-scroll>
+          <ion-infinite-scroll @ionInfinite="loadMoreRooms">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
         </div>
         <div v-else>
-            <ion-list>
-                <ion-item>
-                    <p>Loading...</p>
-                </ion-item>
-            </ion-list>
+          <ion-list>
+            <ion-item>
+              <p>Loading...</p>
+            </ion-item>
+          </ion-list>
         </div>
-      </div> 
+      </div>
     </ion-content>
   </ion-page>
 </template>
@@ -82,17 +56,16 @@ import {
 import DatePicker from '@/components/DatePicker.vue';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import { useRoomStore } from '../stores/roomsStore';
-import { onMounted, ref } from 'vue';
+import {useRoomStore} from '../stores/roomsStore';
+import {onMounted, ref} from 'vue';
+import DateRangePicker from "@/components/DateRangePicker.vue";
+import {useDateStore} from "@/stores/dateStrore";
+
+const dateStore = useDateStore();
 
 let shownRooms = 5;
 const store = useRoomStore();
 const rooms = ref<Room[]>([]);
-const showPicker = ref(false);
-const setOpen = (open: boolean) => (showPicker.value = open);
-
-const startDate = ref<string>('2024-06-01');
-const endDate = ref<string>('2024-12-23');
 
 const loadMoreRooms = async (event: CustomEvent<void>) => {
   shownRooms += 5;
@@ -101,8 +74,13 @@ const loadMoreRooms = async (event: CustomEvent<void>) => {
 };
 
 onMounted(async () => {
-  await store.fetchRooms();
+  await store.fetchRooms(dateStore.start, dateStore.end);
   rooms.value = store.rooms.slice(0, shownRooms);
+});
+
+dateStore.$subscribe((mutation, state) => {
+  console.log('DateStore changed', state.start, state.end)
+  store.fetchRooms(state.start, state.end);
 });
 
 </script>
