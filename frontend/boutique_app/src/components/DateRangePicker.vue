@@ -2,12 +2,12 @@
   <ion-row>
     <div>
       <h2>From:</h2>
-      <ion-datetime presentation="date" :prefer-wheel="true" :min="new Date().toISOString()" max="2027"
+      <ion-datetime presentation="date" :prefer-wheel="true" :min="new Date().toISOString()" max="2050"
                     :value="start" @ionChange="setStart"></ion-datetime>
     </div>
     <div>
       <h2>To:</h2>
-      <ion-datetime presentation="date" :prefer-wheel="true" :min="start ?? new Date().toISOString()" max="2027"
+      <ion-datetime presentation="date" :prefer-wheel="true" :min="endMin" max="2050"
                     :value="end" @ionChange="setEnd"></ion-datetime>
     </div>
   </ion-row>
@@ -21,17 +21,24 @@ import {IonDatetimeCustomEvent} from "@ionic/core";
 
 const store = useDateStore()
 
-const start = ref<string | undefined>(store.start)
-const end = ref<string | undefined>(store.end)
+const tomorrow = () => {
+  const d = new Date()
+  d.setDate(d.getDate() + 1)
+  return d.toISOString()
+}
 
-onMounted(() => {
-  start.value = store.start
-  end.value = store.end
-})
+const start = ref<string>(store.start ?? new Date().toISOString())
+const end = ref<string>(store.end ?? tomorrow())
+
+const endMin = ref<string>(tomorrow())
 
 function setStart(event: IonDatetimeCustomEvent<DatetimeChangeEventDetail>) {
   const v = event.detail.value as string
   const date = v.split('T')[0]
+
+  const d = new Date(date)
+  d.setDate(d.getDate() + 1)
+  endMin.value = d.toISOString()
 
   start.value = date
   store.start = date
