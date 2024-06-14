@@ -32,6 +32,15 @@ const end = ref<string>(store.end ?? tomorrow())
 
 const endMin = ref<string>(tomorrow())
 
+onMounted(() => {
+  if (!store.start) {
+    store.start = start.value.split('T')[0]
+  }
+  if (!store.end) {
+    store.end = end.value.split('T')[0]
+  }
+})
+
 function setStart(event: IonDatetimeCustomEvent<DatetimeChangeEventDetail>) {
   const v = event.detail.value as string
   const date = v.split('T')[0]
