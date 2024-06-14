@@ -102,7 +102,7 @@ const breakfast = ref();
 
 const bookRoom = async () => {
   const dateStore = useDateStore();
-  await axios.post("http://localhost:8080/bookings", {
+  await axios.post(import.meta.env.VITE_API_BASE_URL + "/bookings", {
     roomIds: [props.roomId],
     startDate: dateStore.start,
     endDate: dateStore.end,

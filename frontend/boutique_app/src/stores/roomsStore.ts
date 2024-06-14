@@ -19,12 +19,9 @@ export const useRoomStore = defineStore('rooms', {
                 });
             }
 
-            //if (this.rooms.length > 0) {
-                //return this.rooms;
-            //}
             this.loading = true;
 
-            const response = await axios.get('http://localhost:8080/rooms', {
+            const response = await axios.get(import.meta.env.VITE_API_BASE_URL + '/rooms', {
                 headers: {
                     'Content-Type': 'application/json'
                 },
