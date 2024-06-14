@@ -69,18 +69,18 @@ const rooms = ref<Room[]>([]);
 
 const loadMoreRooms = async (event: CustomEvent<void>) => {
   shownRooms += 5;
-  rooms.value = store.rooms.slice(0, shownRooms);
+  rooms.value = store.rooms.filter(room => room.available).slice(0, shownRooms);
   (event.target as HTMLIonInfiniteScrollElement).complete();
 };
 
 onMounted(async () => {
-  await store.fetchRooms(dateStore.start, dateStore.end);
-  rooms.value = store.rooms.slice(0, shownRooms);
+  await store.fetchRooms();
+  rooms.value = store.rooms.filter(room => room.available).slice(0, shownRooms);
 });
 
 dateStore.$subscribe((mutation, state) => {
   console.log('DateStore changed', state.start, state.end)
-  store.fetchRooms(state.start, state.end);
+  store.fetchRooms();
 });
 
 </script>
