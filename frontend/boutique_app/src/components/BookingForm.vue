@@ -1,5 +1,5 @@
 <template>
-  <ion-button expand="block" @click="setOpen(true)">Open</ion-button>
+  <ion-button class="booking-button" expand="block" @click="setOpen(true)" :disabled="bookingEnabled" >Open</ion-button>
 
   <ion-modal :is-open="isOpen" @willDismiss="setOpen(false)">
     <ion-header>
@@ -84,8 +84,9 @@ import {ref} from 'vue';
 import {useDateStore} from "@/stores/dateStrore";
 import axios from "axios";
 
-const props = defineProps(['roomId']);
+const props = defineProps(['roomId', 'buttonEnabled']);
 
+let bookingEnabled = props.buttonEnabled;
 
 const isOpen = ref(false);
 
@@ -118,3 +119,15 @@ const bookRoom = async () => {
   });
 }
 </script>
+
+<style>
+.booking-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: white;
+  border-radius: 0;
+  z-index: 1000;
+}
+</style>

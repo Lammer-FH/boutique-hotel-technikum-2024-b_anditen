@@ -11,7 +11,7 @@ export default class Room {
   beds: Beds;
   extras: Extras[];
   imageUrl: string;
-  private availability: boolean | null;
+  availability: boolean | null;
 
   constructor(
     id: number,
