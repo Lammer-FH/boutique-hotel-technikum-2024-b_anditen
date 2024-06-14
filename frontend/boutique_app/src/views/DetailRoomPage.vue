@@ -29,15 +29,8 @@
 
         <DateRangePicker class="ion-padding"></DateRangePicker>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <ion-button expand="block" class="booking-button" @click="bookRoom">
-          Buchen um {{ room.pricePerNight }}€
-        </ion-button>
+        <BookingForm :room-id="id" />
+
       </div>
     </ion-content>
   </ion-page>
@@ -72,15 +65,14 @@ import {
   IonImg,
   IonList,
   IonItem,
-  IonLabel
+  IonLabel, IonModal, IonInput
 } from '@ionic/vue';
 import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {useRoomStore} from '@/stores/roomsStore';
 import Room from '@/models/room';
 import DateRangePicker from "@/components/DateRangePicker.vue";
-import {useDateStore} from "@/stores/dateStrore";
-import axios from "axios";
+import BookingForm from "@/components/BookingForm.vue";
 
 export default {
   name: 'DetailRoomPage',
@@ -91,6 +83,9 @@ export default {
     }
   },
   components: {
+    IonInput,
+    IonModal,
+    BookingForm,
     DateRangePicker,
     IonButtons,
     IonButton,
@@ -169,23 +164,6 @@ export default {
           return "home"
       }
     },
-    async bookRoom() {
-      const dateStore = useDateStore();
-      await axios.post("http://localhost:8080/bookings", {
-        roomIds: [this.room?.id],
-        startDate: dateStore.start,
-        endDate: dateStore.end,
-        customer: {
-          firstName: "Max",
-          lastName: "Mustermann",
-          email: "test@test.com",
-          phoneNumber: "1234567890",
-          birthDate: "1990-01-01",
-        },
-        numberOfGuests: 1,
-        breakfast: true,
-      });
-    }
   },
 };
 </script>
