@@ -10,7 +10,7 @@ export const useRoomStore = defineStore('rooms', {
         };
     },
     actions: {
-        async fetchRooms() {
+        async fetchRooms(start: string | undefined, end: string | undefined) {
             if (this.loading) {
                 return new Promise((resolve) => {
                     setTimeout(() => {
@@ -19,17 +19,18 @@ export const useRoomStore = defineStore('rooms', {
                 });
             }
 
-            if (this.rooms.length > 0) {
-                return this.rooms;
-            }
             this.loading = true;
 
-            const response = await axios.get('http://localhost:8080/rooms', {
+            const response = await axios.get(import.meta.env.VITE_API_BASE_URL + '/rooms', {
                 headers: {
                     'Content-Type': 'application/json'
+                },
+                params: {
+                    start: start,
+                    end: end
                 }
             });
-            this.rooms = response.data.map((roomData: any) => new Room(roomData.id, roomData.name, roomData.description, roomData.pricePerNight, roomData.type, roomData.beds, roomData.extras, roomData.imageUrl));
+            this.rooms = response.data.map((roomData: any) => new Room(roomData.id, roomData.name, roomData.description, roomData.pricePerNight, roomData.type, roomData.beds, roomData.extras, roomData.imageUrl, roomData.available));
             console.log('Rooms: ', this.rooms);
             this.loading = false;
 

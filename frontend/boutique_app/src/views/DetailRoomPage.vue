@@ -9,25 +9,29 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-    <div class="room-container">
-      <ion-img class="room-image" :src='room.imageUrl' :alt="room.name"/>
-      <div class="ion-padding room-details">
-        <h1>{{ room.name }}</h1> 
-        <p><strong>Beschreibung:</strong> {{ room.description }}</p>
-        <p><strong>Bettentyp:</strong> {{ room.type }}</p>
-        <p><strong>Inkl. Inhalte:</strong></p>
-        <ion-list>
-          <ion-item v-for="extras in room.extras">
-            <ion-label>
-              <span class="material-icons icon-size">{{ mapNameToIcon(extras.name) }}</span>
-               - {{ extras.name }}</ion-label>
-          </ion-item>
-        </ion-list>
+      <div class="room-container">
+        <ion-img class="room-image" :src='room.imageUrl' :alt="room.name"/>
+        <div class="ion-padding room-details">
+          <h1>{{ room.name }}</h1>
+          <p><strong>Beschreibung:</strong> {{ room.description }}</p>
+          <p><strong>Bettentyp:</strong> {{ room.type }}</p>
+          <p><strong>Inkl. Inhalte:</strong></p>
+          <ion-list>
+            <ion-item v-for="extra in room.extras" :key="extra.name">
+              <ion-label>
+                <span class="material-icons icon-size">{{ mapNameToIcon(extra.name) }}</span>
+                - {{ extra.name }}
+              </ion-label>
+            </ion-item>
+          </ion-list>
+
+        </div>
+
+        <DateRangePicker class="ion-padding"></DateRangePicker>
+        <br>
+        <BookingForm :room-id="id" />
+
       </div>
-      <ion-button expand="block" class="booking-button">
-        Buchen um {{ room.pricePerNight }}€
-      </ion-button>
-    </div>
     </ion-content>
   </ion-page>
   <ion-page v-else>
@@ -61,11 +65,14 @@ import {
   IonImg,
   IonList,
   IonItem,
-  IonLabel
+  IonLabel, IonModal, IonInput
 } from '@ionic/vue';
 import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {useRoomStore} from '@/stores/roomsStore';
+import Room from '@/models/room';
+import DateRangePicker from "@/components/DateRangePicker.vue";
+import BookingForm from "@/components/BookingForm.vue";
 
 export default {
   name: 'DetailRoomPage',
@@ -75,7 +82,11 @@ export default {
       required: true
     }
   },
-  components:{
+  components: {
+    IonInput,
+    IonModal,
+    BookingForm,
+    DateRangePicker,
     IonButtons,
     IonButton,
     IonHeader,
@@ -93,18 +104,18 @@ export default {
   setup() {
     const route = useRoute();
     const roomStore = useRoomStore();
-    const room = ref(null);
+    const room = ref<Room | null>(null);
 
     const fetchRoom = () => {
-      const roomId = parseInt(route.params.id, 10);
-      room.value = roomStore.getRoom(roomId);
+      const roomId = parseInt(route.params.id[0], 10);
+      room.value = roomStore.getRoom(roomId) ?? null;
       if (!room.value) {
         console.error(`Room with ID ${roomId} not found`);
       }
       console.log(room.value);
     };
 
-    onMounted( async () => {
+    onMounted(async () => {
       await roomStore.fetchRooms();
       fetchRoom();
     });
@@ -114,29 +125,46 @@ export default {
     };
   },
   methods: {
-    mapNameToIcon(name:string): string {
+    mapNameToIcon(name: string): string {
       console.log(name);
-        switch (name){
-            case 'Balcony': return "balcony"
-            case 'Sea view': return "waves"
-            case 'Mountain view': return "filter_hdr"
-            case 'City view': return "location_city"
-            case 'Garden view': return "yard"
-            case 'Pool view': return "pool"
-            case 'Terrace': return "deck"
-            case 'Patio': return "deck"
-            case 'Kitchen': return "kitchen"
-            case 'Living room': return "weekend"
-            case 'Dining room': return "dinner_dining"
-            case 'Fireplace': return "fireplace"
-            case 'Hot tub': return "hot_tub"
-            case 'Air conditioning': return "air"
-            case 'WIFI': return "wifi"
-            case 'Extra large toilet': return "wc"
-            default: return "home"
-        }
-    }
-  }
+      switch (name) {
+        case 'Balcony':
+          return "balcony"
+        case 'Sea view':
+          return "waves"
+        case 'Mountain view':
+          return "filter_hdr"
+        case 'City view':
+          return "location_city"
+        case 'Garden view':
+          return "yard"
+        case 'Pool view':
+          return "pool"
+        case 'Terrace':
+          return "deck"
+        case 'Patio':
+          return "deck"
+        case 'Kitchen':
+          return "kitchen"
+        case 'Living room':
+          return "weekend"
+        case 'Dining room':
+          return "dinner_dining"
+        case 'Fireplace':
+          return "fireplace"
+        case 'Hot tub':
+          return "hot_tub"
+        case 'Air conditioning':
+          return "air"
+        case 'WIFI':
+          return "wifi"
+        case 'Extra large toilet':
+          return "wc"
+        default:
+          return "home"
+      }
+    },
+  },
 };
 </script>
 
@@ -190,7 +218,7 @@ export default {
   z-index: 1000;
 }
 
-ion-list{
+ion-list {
   margin-bottom: 4%;
 }
 
