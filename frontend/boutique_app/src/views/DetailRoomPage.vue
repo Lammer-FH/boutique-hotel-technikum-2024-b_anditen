@@ -27,9 +27,9 @@
 
         </div>
 
-        <DateRangePicker class="ion-padding"></DateRangePicker>
+        <DateRangePicker class="ion-padding date-picker"></DateRangePicker>
         <br>
-        <BookingForm :room-id="id" />
+        <BookingForm :room-id="id" :button-enabled="bookingEnabled" />
 
       </div>
     </ion-content>
@@ -54,7 +54,6 @@
 <script lang="ts">
 import {
   IonButtons,
-  IonButton,
   IonHeader,
   IonToolbar,
   IonContent,
@@ -65,7 +64,7 @@ import {
   IonImg,
   IonList,
   IonItem,
-  IonLabel, IonModal, IonInput
+  IonLabel,
 } from '@ionic/vue';
 import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
@@ -83,12 +82,9 @@ export default {
     }
   },
   components: {
-    IonInput,
-    IonModal,
     BookingForm,
     DateRangePicker,
     IonButtons,
-    IonButton,
     IonHeader,
     IonToolbar,
     IonContent,
@@ -105,14 +101,11 @@ export default {
     const route = useRoute();
     const roomStore = useRoomStore();
     const room = ref<Room | null>(null);
+    let bookingEnabled = ref(false);
 
     const fetchRoom = () => {
       const roomId = parseInt(route.params.id[0], 10);
       room.value = roomStore.getRoom(roomId) ?? null;
-      if (!room.value) {
-        console.error(`Room with ID ${roomId} not found`);
-      }
-      console.log(room.value);
     };
 
     onMounted(async () => {
@@ -121,12 +114,11 @@ export default {
     });
 
     return {
-      room
+      room, bookingEnabled
     };
   },
   methods: {
     mapNameToIcon(name: string): string {
-      console.log(name);
       switch (name) {
         case 'Balcony':
           return "balcony"
@@ -230,5 +222,9 @@ ion-label {
 .icon-size {
   material-icons-font-size: 24px;
   vertical-align: middle;
+}
+
+.date-picker{
+  padding-bottom: 10%;
 }
 </style>

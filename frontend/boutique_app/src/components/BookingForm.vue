@@ -81,8 +81,13 @@
 <script lang="ts" setup>
 import {IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonContent, IonTitle} from '@ionic/vue';
 import {ref} from 'vue';
-import {useDateStore} from "@/stores/dateStrore";
-import axios from "axios";
+import {useDateStore} from "@/stores/dateStore";
+import { useUserStore } from '@/stores/userStore';
+import User from '@/models/user';
+import Customer from '@/models/customer';
+
+const userStore = useUserStore();
+const user = userStore.user;
 
 const props = defineProps(['roomId', 'buttonEnabled']);
 
@@ -92,31 +97,67 @@ const isOpen = ref(false);
 
 const setOpen = (open: boolean) => (isOpen.value = open);
 
-const first = ref();
-const last = ref();
-const email = ref();
-const phone = ref();
-const birth = ref();
-const guests = ref();
-const breakfast = ref();
+const first = ref(user?.customer.firstName);
+const last = ref(user?.customer.lastName);
+const email = ref(user?.customer.email);
+const phone = ref(user?.customer.phoneNumber);
+const birth = ref(user?.customer.birthDate);
+const guests = ref(user?.numberOfGuests);
+const breakfast = ref(user?.breakfast);
 
+function fieldsValidation() : boolean {
+  if (!first.value.value || first.value === '') {
+    console.log("firstname is not used");
+    return false;
+  }
+  if (!last.value.value || last.value === '') {
+    console.log("lastName is not used");
+    return false;
+  }
+  if (!email.value.value || email.value === '') {
+    console.log("email is not used");
+    return false;
+  }
+  if (!phone.value.value || phone.value === '') {
+    console.log("phone is not used");
+    return false;
+  }
+  if (!birth.value.value || birth.value === '') {
+    console.log("birth is not used");
+    return false;
+  }
+  if (!guests.value.value || guests.value === 0) {
+    console.log("guests is not used");
+    return false;
+  }
+  return true;
+}
 
-const bookRoom = async () => {
+const bookRoom = () => {
+  if (!fieldsValidation()) {
+    alert("Bitte füllen sie alle felder vorher aus!")
+    return;
+  }
+
   const dateStore = useDateStore();
-  await axios.post(import.meta.env.VITE_API_BASE_URL + "/bookings", {
-    roomIds: [props.roomId],
-    startDate: dateStore.start,
-    endDate: dateStore.end,
-    customer: {
-      firstName: first.value.value,
-      lastName: last.value.value,
-      email: email.value.value,
-      phoneNumber: phone.value.value,
-      birthDate: birth.value.value,
-    },
-    numberOfGuests: guests.value.value,
-    breakfast: breakfast.value.checked,
-  });
+
+  userStore.sendBooking(
+    new User(
+      new Customer(
+        first.value.value || '',
+        last.value.value || '',
+        email.value.value || '',
+        phone.value.value || '',
+        birth.value.value || ''
+      ),
+      guests.value.value || 1,
+      breakfast.value.checked || false
+    ),
+    props.roomId,
+    dateStore.start,
+    dateStore.end
+  )
+
 }
 </script>
 

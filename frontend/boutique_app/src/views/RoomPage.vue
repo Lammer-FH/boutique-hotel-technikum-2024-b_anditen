@@ -56,7 +56,7 @@ import Room from '../models/room';
 import {useRoomStore} from '../stores/roomsStore';
 import {onMounted, ref} from 'vue';
 import DateRangePicker from "@/components/DateRangePicker.vue";
-import {useDateStore} from "@/stores/dateStrore";
+import {useDateStore} from "@/stores/dateStore";
 
 const dateStore = useDateStore();
 
@@ -66,13 +66,13 @@ const rooms = ref<Room[]>([]);
 
 const loadMoreRooms = async (event: CustomEvent<void>) => {
   shownRooms += 5;
-  rooms.value = store.rooms.filter(room => room.availability).slice(0, shownRooms);
+  rooms.value = store.rooms.filter(room => room.availability || room.availability == null).slice(0, shownRooms);
   (event.target as HTMLIonInfiniteScrollElement).complete();
 };
 
 onMounted(async () => {
   await store.fetchRooms();
-  rooms.value = store.rooms.filter(room => room.availability).slice(0, shownRooms);
+  rooms.value = store.rooms.filter(room => room.availability || room.availability == null).slice(0, shownRooms);
 });
 
 dateStore.$subscribe(async (mutation, state) => {
