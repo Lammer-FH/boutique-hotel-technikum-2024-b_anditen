@@ -1,4 +1,4 @@
-<template>
+#<template>
   <ion-row>
     <div>
       <h2>From:</h2>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import {DatetimeChangeEventDetail, IonDatetime} from '@ionic/vue';
 import {onMounted, ref} from 'vue';
-import {useDateStore} from "@/stores/dateStrore";
+import {useDateStore} from "@/stores/dateStore";
 import {IonDatetimeCustomEvent} from "@ionic/core";
 
 const store = useDateStore()
