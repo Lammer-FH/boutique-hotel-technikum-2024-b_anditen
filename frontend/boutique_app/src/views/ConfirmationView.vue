@@ -28,8 +28,12 @@
           </ion-segment-button>
         </ion-segment>
 
-        <CarRouteMap v-if="travelMode === 'car'" :start-address="startAddress" />
-        <TrainRouteMap v-else :start-address="startAddress" />
+        <div v-if="travelMode === 'car'">
+          <RouteMap travel-mode="car" :start-address="startAddress" />
+        </div>
+        <div v-else>
+          <RouteMap travel-mode="train" :start-address="startAddress" />
+        </div>
       </div>
     </ion-content>
   </ion-page>
@@ -37,17 +41,15 @@
 
 <script lang="ts">
 import { ref, computed } from "vue";
-import TrainRouteMap from "@/components/TrainRouteMap.vue";
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonLabel } from "@ionic/vue";
 import { useRoomStore } from "@/stores/roomsStore";
 import { useDateStore } from "@/stores/dateStore";
-import CarRouteMap from "@/components/CarRouteMap.vue";
+import RouteMap from "@/components/RouteMap.vue";
 
 export default {
   name: "ConfirmationView",
   components: {
-    CarRouteMap,
-    TrainRouteMap,
+    RouteMap,
     IonContent,
     IonToolbar,
     IonHeader,
