@@ -23,8 +23,16 @@ import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'RouteMap',
-  setup() {
+  props: {
+    startAddress: {
+      type: String,
+      required: true,
+    }
+  },
+  setup(props) {
     const center = ref({ lat: 48.210033, lng: 16.363449 });
+    console.log("Start address:", props.startAddress);
+
     const zoom = ref(12);
     const markers = ref<any[]>([]);
     const routePath = ref<any[]>([]);
@@ -32,10 +40,9 @@ export default defineComponent({
     const onMapLoaded = () => {
       const geocoder = new google.maps.Geocoder();
       const directionsService = new google.maps.DirectionsService();
-      const startAddress = 'Canongasse 5, 1180 Wien';
       const endAddress = 'Höchstädtpl. 6, 1200 Wien';
 
-      geocoder.geocode({ address: startAddress }, (startResults, startStatus) => {
+      geocoder.geocode({ address: props.startAddress }, (startResults, startStatus) => {
         if (startStatus === google.maps.GeocoderStatus.OK && startResults[0]) {
           const startLocation = startResults[0].geometry.location;
           markers.value.push({ position: startLocation });

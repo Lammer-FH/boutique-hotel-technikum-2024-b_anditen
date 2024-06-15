@@ -53,10 +53,10 @@ import {
 } from '@ionic/vue';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import {useRoomStore} from '../stores/roomsStore';
+import {useRoomStore} from '@/stores/roomsStore';
 import {onMounted, ref} from 'vue';
 import DateRangePicker from "@/components/DateRangePicker.vue";
-import {useDateStore} from "@/stores/dateStrore";
+import {useDateStore} from "@/stores/dateStore";
 
 const dateStore = useDateStore();
 

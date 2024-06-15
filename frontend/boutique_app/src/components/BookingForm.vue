@@ -81,7 +81,7 @@
 <script lang="ts" setup>
 import {IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonContent, IonTitle} from '@ionic/vue';
 import {ref} from 'vue';
-import {useDateStore} from "@/stores/dateStrore";
+import {useDateStore} from "@/stores/dateStore";
 import axios from "axios";
 
 const props = defineProps(['roomId', 'buttonEnabled']);
