@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
-import AboutPage from '../views/AboutPage.vue';
-import ImprintPage from '../views/ImprintPage.vue';
+import DetailRoomPage from '../views/DetailRoomPage.vue';
 import RoomPage from '@/views/RoomPage.vue';
 import ConfirmationView from "@/views/ConfirmationView.vue";
 
@@ -12,25 +11,35 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/home'
   },
   {
+    name: 'Home',
     path: '/home',
     component: HomePage
   },
   {
+    name: 'RoomPage',
     path: '/rooms',
     component: RoomPage
   },
   {
+    name: 'DetailRoomPage',
+    path: '/room/:id',
+    component: DetailRoomPage,
+    props: true
+  },
+  {
+    name: 'About',
     path: '/about',
-    component: AboutPage
+    component: () => import('../views/AboutPage.vue')
   },
   {
+    name: 'Imprint',
     path: '/imprint',
-    component: ImprintPage
+    component: () => import('../views/ImprintPage.vue')
   },
-  {
-    path: '/confirmation',
-    component: ConfirmationView
-  },
+    {
+        path: '/confirmation',
+        component: ConfirmationView
+    },
 ]
 
 const router = createRouter({

@@ -1,19 +1,29 @@
+import Beds from "./beds";
+import Extras from "./extras";
+
 export default class Room {
     id: number;
-    title: string;
-    description: string;
+    name: string;
+    // pricePerNightString: string;
     pricePerNight: number;
-    extras: string[];
+    type: string;
+    description: string;
+    beds: Beds;
+    extras: Extras;
     imageUrl: string;
-    available: boolean;
 
-    constructor(id: number, title: string, description: string, pricePerNight: number, extras: [string], imageUrl: string, available: boolean) {
+    constructor(id: number, name: string, description: string, pricePerNight: number, type: string, beds: Beds, extras: Extras, imageUrl: string) {
         this.id = id,
-        this.title = title,
-        this.description = description,
+        this.name = name,
         this.pricePerNight = pricePerNight,
+        this.type = type,
+        this.description = description,
+        this.beds = beds,
         this.extras = extras,
-        this.imageUrl = imageUrl,
-        this.available = available
+        this.imageUrl = imageUrl
+    }
+
+    getLocalImage(): string {
+        return new URL(`../assets/${this.imageUrl}`, import.meta.url).pathname;
     }
 }

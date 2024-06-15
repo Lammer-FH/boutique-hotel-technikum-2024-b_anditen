@@ -1,19 +1,16 @@
 <template>
     <ion-card color="light">
-        <ion-img :src="room.image" alt="Room image"></ion-img>
+        <ion-img :src='room.imageUrl' :alt="room.name"></ion-img>
         <ion-card-header>
-            <ion-card-title>{{ room.title }}</ion-card-title>
-            <!-- <ion-card-subtitle> {{ room.descritpion }}</ion-card-subtitle> -->
+            <ion-card-title>{{ room.name }}</ion-card-title>
         </ion-card-header>
 
-        <ion-card-content>
-            <ion-label>{{ room.descritpion }}</ion-label>
-            <!-- <ion-badge slot="end">{{ room.price }}</ion-badge> -->
-            <ion-button fill="clear" slot="end">Ab {{ room.price }}€</ion-button>
+        <ion-card-content :fullwidth="true" class="container">
+            <ion-label style="float:left">{{ room.description }}</ion-label>
+            <ion-button :router-link=getDetailString() slot="end" style="float:right">Ab {{ room.pricePerNight }}€</ion-button>
         </ion-card-content>
-
-        <!-- <ion-button fill="clear">Action</ion-button> -->
     </ion-card>
+
 </template>
 
 <script lang="ts">
@@ -21,7 +18,6 @@ import { IonButton,
     IonCard, 
     IonCardContent,
     IonCardHeader, 
-    //  IonCardSubtitle, 
     IonCardTitle,
     IonImg,
     IonLabel,
@@ -30,32 +26,49 @@ import { defineComponent } from 'vue';
 import Room from '../models/room';
 
 export default defineComponent({
-    name: 'RoomCard',
-    props: {
-        room: {
-            type: Room,
-            required: true,
-        },
+  name: "RoomCard",
+  props: {
+    room: {
+      type: Room,
+      required: true,
     },
-    components: { IonButton, IonCard, IonCardContent, IonCardHeader, 
-        // IonCardSubtitle, 
-        IonCardTitle,
-        IonImg,
-        IonLabel
+  },
+  methods: {
+    getDetailString() {
+      return "/room/" + this.room.id;
     },
+  },
+  components: {
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
+    IonImg,
+    IonLabel,
+  },
 });
+
 </script>
 
 <style scoped>
-ion-card {
-  margin-bottom: 16px;
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
+
+ion-card {
+  display: auto;
+  align-self: center;
+  width: 100%; 
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
 ion-img {
-  height: 200px;
+  height: 10%;
   object-fit: cover;
 }
-/* ion-badge {
-  font-size: 1rem;
-  padding: 0.5rem;
-} */
 </style>

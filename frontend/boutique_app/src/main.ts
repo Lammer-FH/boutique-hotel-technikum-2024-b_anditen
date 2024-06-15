@@ -1,8 +1,10 @@
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
+import 'material-icons/iconfont/material-icons.css';
 
-import {IonicVue} from '@ionic/vue';
+import { IonicVue } from '@ionic/vue';
+import { createPinia } from 'pinia';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -35,9 +37,12 @@ import '@ionic/vue/css/palettes/dark.system.css';
 import './theme/variables.css';
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 
+const pinia = createPinia();
+
 const app = createApp(App)
     .use(IonicVue)
     .use(router)
+    .use(pinia)
     .use(VueGoogleMaps, {
         load: {
             key: import.meta.env.VITE_MAPS_KEY,
@@ -46,5 +51,5 @@ const app = createApp(App)
     });
 
 router.isReady().then(() => {
-    app.mount('#app');
+  app.mount('#app');
 });

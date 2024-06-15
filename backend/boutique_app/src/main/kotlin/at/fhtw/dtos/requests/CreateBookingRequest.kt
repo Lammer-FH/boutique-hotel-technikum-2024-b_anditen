@@ -12,5 +12,6 @@ data class CreateBookingRequest(
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) val endDate: Date,
     val customer: Customer,
     @Min(1)
-    val numberOfGuests: Int
+    val numberOfGuests: Int,
+    @NotEmpty val breakfast: Boolean
 )
