@@ -21,14 +21,14 @@
     />
 
     <div v-if="transitDetails.length" class="transit-details">
-      <h2>Transit Details</h2>
+      <h2>Details zur Anreise</h2>
       <ul>
         <li v-for="(detail, index) in transitDetails" :key="index">
-          <p><strong>Line Number:</strong> {{ detail.lineNumber }}</p>
-          <p><strong>Line:</strong> {{ detail.lineName }}</p>
-          <p><strong>Vehicle:</strong> {{ detail.vehicleType }}</p>
-          <p><strong>Departure Stop:</strong> {{ detail.departureStop }}</p>
-          <p><strong>Arrival Stop:</strong> {{ detail.arrivalStop }}</p>
+          <p><strong>Linien-Nummer:</strong> {{ detail.lineNumber }}</p>
+          <p><strong>Linie:</strong> {{ detail.lineName }}</p>
+          <p><strong>Transport-Art:</strong> {{ detail.vehicleType }}</p>
+          <p><strong>Abfahrtshaltestelle:</strong> {{ detail.departureStop }}</p>
+          <p><strong>Ankunftshaltestelle:</strong> {{ detail.arrivalStop }}</p>
         </li>
       </ul>
     </div>

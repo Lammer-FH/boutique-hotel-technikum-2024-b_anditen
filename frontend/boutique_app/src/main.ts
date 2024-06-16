@@ -47,6 +47,7 @@ const app = createApp(App)
         load: {
             key: import.meta.env.VITE_MAPS_KEY,
             libraries: 'places,directions',
+            language: 'de',
         },
     });
 

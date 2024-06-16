@@ -178,10 +178,10 @@ function fieldsValidation(): boolean {
 }
 
 const bookRoom = async () => {
-/*  if (!fieldsValidation()) {
+  if (!fieldsValidation()) {
     alert("Bitte füllen sie alle felder korrekt aus!")
     return;
-  }*/
+  }
 
   const customer = new Customer(first.value.value, last.value.value, email.value.value, phone.value.value, birth.value.value, address.value.value);
   bookingStore.numberOfGuests = guests.value.value;
