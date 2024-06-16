@@ -53,7 +53,7 @@ import {
 } from '@ionic/vue';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import {useRoomStore} from '@/stores/roomsStore';
+import {useRoomStore} from '../stores/roomsStore';
 import {onMounted, ref} from 'vue';
 import DateRangePicker from "@/components/DateRangePicker.vue";
 import {useDateStore} from "@/stores/dateStore";
@@ -66,19 +66,19 @@ const rooms = ref<Room[]>([]);
 
 const loadMoreRooms = async (event: CustomEvent<void>) => {
   shownRooms += 5;
-  rooms.value = store.rooms.filter(room => room.availability).slice(0, shownRooms);
+  rooms.value = store.rooms.filter(room => room.available || room.available == null).slice(0, shownRooms);
   (event.target as HTMLIonInfiniteScrollElement).complete();
 };
 
 onMounted(async () => {
-  await store.fetchRooms();
-  rooms.value = store.rooms.filter(room => room.availability).slice(0, shownRooms);
+  await store.fetchRooms(dateStore.start, dateStore.end);
+  rooms.value = store.rooms.filter(room => room.available || room.available == null).slice(0, shownRooms);
 });
 
 dateStore.$subscribe(async (mutation, state) => {
   console.log('DateStore changed', state.start, state.end);
   await store.fetchRooms(state.start, state.end);
-  rooms.value = store.rooms.filter(room => room.availability || room.availability == null).slice(0, shownRooms);
+  rooms.value = store.rooms.filter(room => room.available || room.available == null).slice(0, shownRooms);
   console.log('Rooms Page ', rooms.value);
 });
 

@@ -3,16 +3,22 @@ import {defineStore} from "pinia";
 export const useDateStore = defineStore('date', {
     state() {
         return {
-            checkInDate: '2024-06-15',
-            checkOutDate: '2024-06-17'
+            start: new Date().toISOString().split('T')[0] as string | undefined,
+            end: tomorrow().split('T')[0] as string | undefined
         };
     },
     actions: {
-        setCheckInDate(date: string) {
-            this.checkInDate = date;
+        setStart(date: string) {
+            this.start = date;
         },
-        setCheckOutDate(date: string) {
-            this.checkOutDate = date;
+        setEnd(date: string) {
+            this.end = date;
         }
     }
 });
+
+const tomorrow = () => {
+    const d = new Date()
+    d.setDate(d.getDate() + 1)
+    return d.toISOString()
+}
