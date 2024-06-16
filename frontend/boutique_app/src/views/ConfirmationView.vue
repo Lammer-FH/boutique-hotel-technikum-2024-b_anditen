@@ -13,85 +13,86 @@
       <div class="confirmation-container">
         <h1>Vielen Dank für Ihre Buchung!</h1>
         <p>Ihre Reservierung ist bestätigt.</p>
-        <p>Check-in: {{ dateStore.checkInDate }}</p>
-        <p>Check-out: {{ dateStore.checkOutDate }}</p>
+        <p>Check-in: {{ dateStore.start }}</p>
+        <p>Check-out: {{ dateStore.end }}</p>
         <p>Zimmer: {{ room?.name ?? 'Could not load' }}</p>
+        <p>Anzahl der Gäste: {{ bookingStore.numberOfGuests }}</p>
         <p>Anzahl der Nächte: {{ numberOfNights }}</p>
-        <p>Preis: {{ (room?.pricePerNight ?? 0) * numberOfNights }}</p>
+        <p>Preis pro Nacht: {{ room?.pricePerNight ?? 0 }}</p>
+        <p>Gesamtpreis: {{ (room?.pricePerNight ?? 0) * numberOfNights }}</p>
 
-        <ion-segment v-model="travelMode">
+        <h2>Ihre Daten</h2>
+        <p>Name: {{ customer?.firstName }} {{ customer?.lastName }}</p>
+        <p>Email: {{ customer?.email }}</p>
+        <p>Telefon: {{ customer?.phoneNumber }}</p>
+        <p>Geburtsdatum: {{ customer?.birthDate }}</p>
+        <p>Adresse: {{ customer?.address }}</p>
+
+        <h2>Ihr gewähltes Zimmer</h2>
+        <RoomCard :room="room" v-if="room" />
+
+        <h2>Wegbeschreibung</h2>
+        <ion-segment v-model="travelMode" class="travel-mode-segment">
           <ion-segment-button value="car">
-            <ion-label>Car</ion-label>
+            <ion-label>Auto</ion-label>
           </ion-segment-button>
           <ion-segment-button value="train">
-            <ion-label>Train</ion-label>
+            <ion-label>Öffentlich</ion-label>
           </ion-segment-button>
         </ion-segment>
 
         <div v-if="travelMode === 'car'">
-          <RouteMap travel-mode="car" :start-address="startAddress" />
+          <RouteMap travel-mode="car" :start-address="startAddress"/>
         </div>
         <div v-else>
-          <RouteMap travel-mode="train" :start-address="startAddress" />
+          <RouteMap travel-mode="train" :start-address="startAddress"/>
         </div>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ref, computed } from "vue";
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonLabel } from "@ionic/vue";
 import { useRoomStore } from "@/stores/roomsStore";
 import { useDateStore } from "@/stores/dateStore";
 import RouteMap from "@/components/RouteMap.vue";
+import {useBookingStore} from "@/stores/bookingStore";
+import RoomCard from "@/components/RoomCard.vue";
+import Room from "@/models/room";
 
-export default {
-  name: "ConfirmationView",
-  components: {
-    RouteMap,
-    IonContent,
-    IonToolbar,
-    IonHeader,
-    IonMenuButton,
-    IonTitle,
-    IonButtons,
-    IonPage,
-    IonSegment,
-    IonSegmentButton,
-    IonLabel,
-  },
-  setup() {
-    const startAddress = ref('Albert-Schweitzer-Gasse 6, 1140 Wien');
+const roomStore = useRoomStore();
+const dateStore = useDateStore();
+const bookingStore = useBookingStore();
 
-    const roomStore = useRoomStore();
-    const dateStore = useDateStore();
-    const room = ref(roomStore.getRoom(1));
-    const travelMode = ref('car'); // default to car
+const startAddress = ref('Albert-Schweitzer-Gasse 6, 1140 Wien');
+const travelMode = ref('car');
+const room = ref<Room>();
+const roomId = bookingStore.roomId;
+let room1 = roomStore.getRoom(Number(roomId));
+room.value = room1;
 
-    const numberOfNights = computed(() => {
-      if (!dateStore.checkInDate || !dateStore.checkOutDate) {
-        return -200;
-      }
-      const checkIn = new Date(dateStore.checkInDate);
-      const checkOut = new Date(dateStore.checkOutDate);
-      const timeDifference = checkOut.getTime() - checkIn.getTime();
-      return timeDifference / (1000 * 3600 * 24);
-    });
+const customer = ref(bookingStore.customer);
 
-    return {
-      room,
-      dateStore,
-      numberOfNights,
-      startAddress,
-      travelMode,
-    };
-  },
-};
+const numberOfNights = computed(() => {
+  if (!dateStore.start || !dateStore.end) {
+    return "N/A";
+  }
+  const checkIn = new Date(dateStore.start);
+  const checkOut = new Date(dateStore.end);
+  const timeDifference = checkOut.getTime() - checkIn.getTime();
+  return timeDifference / (1000 * 3600 * 24);
+});
+
 </script>
 
 <style scoped>
 .confirmation-container {
   padding: 2rem;
+}
+
+.travel-mode-segment {
+  margin-top: 1.5rem;
 }
 </style>
