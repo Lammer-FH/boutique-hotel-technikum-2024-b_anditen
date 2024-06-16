@@ -40,6 +40,15 @@
       </ion-item>
       <ion-item>
         <ion-input
+            label="Confirm your email"
+            label-placement="stacked"
+            ref="confirmEmail"
+            type="email"
+            placeholder="Confirm your email"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
             label="Enter your phone number"
             label-placement="stacked"
             ref="phone"
@@ -54,6 +63,15 @@
             ref="birth"
             type="date"
             placeholder="Your birth date"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input
+            label="Enter your address"
+            label-placement="stacked"
+            ref="address"
+            type="text"
+            placeholder="Address"
         ></ion-input>
       </ion-item>
       <ion-item>
@@ -82,19 +100,22 @@
 import {IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonContent, IonTitle} from '@ionic/vue';
 import {onMounted, ref} from 'vue';
 import {useDateStore} from "@/stores/dateStore";
-import axios from "axios";
 import {useRoomStore} from "@/stores/roomsStore";
+import {useBookingStore} from "@/stores/bookingStore";
+import { useRouter } from 'vue-router';
+import Customer from "@/models/customer";
 
 const props = defineProps(['roomId']);
+const router = useRouter();
+const bookingStore = useBookingStore();
+const roomStore = useRoomStore();
+const dateStore = useDateStore();
 
 const isOpen = ref(false);
 
 const setOpen = (open: boolean) => (isOpen.value = open);
 
 onMounted(() => {
-  const roomStore = useRoomStore();
-  const dateStore = useDateStore();
-
   dateStore.$subscribe(async (mutation, state) => {
     console.log('DateStore changed', state.start, state.end);
     await roomStore.fetchRooms(state.start, state.end);
@@ -113,8 +134,10 @@ const isAvailable = ref(false);
 const first = ref();
 const last = ref();
 const email = ref();
+const confirmEmail = ref();
 const phone = ref();
 const birth = ref();
+const address = ref();
 const guests = ref();
 const breakfast = ref();
 
@@ -131,12 +154,20 @@ function fieldsValidation(): boolean {
     console.log("email is not used");
     return false;
   }
+  if (email.value.value !== confirmEmail.value.value) {
+    console.log("emails do not match");
+    return false;
+  }
   if (!phone.value || phone.value === '') {
     console.log("phone is not used");
     return false;
   }
   if (!birth.value || birth.value === '') {
     console.log("birth is not used");
+    return false;
+  }
+  if (!address.value || address.value === '') {
+    console.log("address is not used");
     return false;
   }
   if (!guests.value || guests.value === 0) {
@@ -147,33 +178,21 @@ function fieldsValidation(): boolean {
 }
 
 const bookRoom = async () => {
-  if (!fieldsValidation()) {
-    alert("Bitte füllen sie alle felder vorher aus!")
+/*  if (!fieldsValidation()) {
+    alert("Bitte füllen sie alle felder korrekt aus!")
     return;
-  }
+  }*/
 
-  const dateStore = useDateStore();
+  const customer = new Customer(first.value.value, last.value.value, email.value.value, phone.value.value, birth.value.value, address.value.value);
+  bookingStore.numberOfGuests = guests.value.value;
+  bookingStore.breakfast = breakfast.value.checked;
 
-  const res = await axios.post(import.meta.env.VITE_API_BASE_URL + "/bookings", {
-    roomIds: [props.roomId],
-    startDate: dateStore.start,
-    endDate: dateStore.end,
-    customer: {
-      firstName: first.value.value,
-      lastName: last.value.value,
-      email: email.value.value,
-      phoneNumber: phone.value.value,
-      birthDate: birth.value.value,
-    },
-    numberOfGuests: guests.value.value,
-    breakfast: breakfast.value.checked,
-  }, {
-    validateStatus: status => (status >= 200 && status < 499)
-  });
+  const res = await bookingStore.bookRoom(customer, props.roomId, guests.value.value, breakfast.value.checked, dateStore.start, dateStore.end);
 
   if (res.status === 200) {
-    alert("Booking was successful!");
     setOpen(false);
+    console.log(res.data);
+    router.push({ name: 'Confirmation' }); // Redirect to confirmation page
   } else if (res.status == 409) {
     alert("Room is already booked in this time period!");
   } else {
