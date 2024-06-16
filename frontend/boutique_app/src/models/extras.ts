@@ -1,9 +1,7 @@
 export default class Extras {
-    name: string;
-    iconName: string;
+  name: string;
 
-    constructor(name: string) {
-        this.name = name;
-        this.iconName = this.mapNameToIcon(name);
-    }
+  constructor(name: string) {
+    this.name = name;
+  }
 }

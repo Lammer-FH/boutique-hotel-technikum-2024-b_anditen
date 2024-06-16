@@ -16,7 +16,7 @@ interface RoomRepository : CrudRepository<Room, Long> {
                 AND ((b.start <= DATE(:start) and b.end >= DATE(:end)) OR
                      b.start between DATE(:start) and DATE(:end)
                   OR b.end between DATE(:start) and DATE(:end)
-                  )),'false','true');"""
+                  ) LIMIT 1),'false','true');"""
     )
     fun checkIfRoomIsAvailable(
         @Param("roomId") roomId: Long, @Param("start") start: Date, @Param("end") end: Date
