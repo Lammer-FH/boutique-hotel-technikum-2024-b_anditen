@@ -1,4 +1,4 @@
-#<template>
+<template>
   <ion-row>
     <div>
       <h2>From:</h2>
@@ -34,10 +34,10 @@ const endMin = ref<string>(tomorrow())
 
 onMounted(() => {
   if (!store.start) {
-    store.start = start.value.split('T')[0]
+    store.start = new Date().toISOString().split('T')[0]
   }
   if (!store.end) {
-    store.end = end.value.split('T')[0]
+    store.end = tomorrow().split('T')[0]
   }
 })
 

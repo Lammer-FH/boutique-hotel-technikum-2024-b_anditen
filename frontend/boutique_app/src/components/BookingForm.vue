@@ -1,6 +1,6 @@
 <template>
-  <ion-button class="booking-button" expand="block" @click="setOpen(true)" :disabled="bookingEnabled" >Open</ion-button>
-
+  <ion-button v-if="isAvailable" class="booking-button" expand="block" @click="setOpen(true)">Book</ion-button>
+  <ion-button v-else class="booking-button" expand="block" disabled>Unavailable</ion-button>
   <ion-modal :is-open="isOpen" @willDismiss="setOpen(false)">
     <ion-header>
       <ion-toolbar>
@@ -80,60 +80,73 @@
 
 <script lang="ts" setup>
 import {IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonContent, IonTitle} from '@ionic/vue';
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 import {useDateStore} from "@/stores/dateStore";
-import { useUserStore } from '@/stores/userStore';
-import User from '@/models/user';
-import Customer from '@/models/customer';
+import axios from "axios";
+import {useRoomStore} from "@/stores/roomsStore";
 
-const userStore = useUserStore();
-const user = userStore.user;
-
-const props = defineProps(['roomId', 'buttonEnabled']);
-
-let bookingEnabled = props.buttonEnabled;
+const props = defineProps(['roomId']);
 
 const isOpen = ref(false);
 
 const setOpen = (open: boolean) => (isOpen.value = open);
 
-const first = ref(user?.customer.firstName);
-const last = ref(user?.customer.lastName);
-const email = ref(user?.customer.email);
-const phone = ref(user?.customer.phoneNumber);
-const birth = ref(user?.customer.birthDate);
-const guests = ref(user?.numberOfGuests);
-const breakfast = ref(user?.breakfast);
+onMounted(() => {
+  const roomStore = useRoomStore();
+  const dateStore = useDateStore();
 
-function fieldsValidation() : boolean {
-  if (!first.value.value || first.value === '') {
+  dateStore.$subscribe(async (mutation, state) => {
+    console.log('DateStore changed', state.start, state.end);
+    await roomStore.fetchRooms(state.start, state.end);
+  });
+  roomStore.$subscribe(async (mutation, state) => {
+    console.log('RoomStore changed', state.rooms);
+    isAvailable.value = state.rooms.find(room => room.id == props.roomId)?.available ?? false;
+    console.log(props.roomId)
+    console.log('RoomStore changed', state.rooms.find(room => room.id == props.roomId));
+  });
+  isAvailable.value = roomStore.rooms.find(room => room.id == props.roomId)?.available ?? false;
+});
+
+const isAvailable = ref(false);
+
+const first = ref();
+const last = ref();
+const email = ref();
+const phone = ref();
+const birth = ref();
+const guests = ref();
+const breakfast = ref();
+
+function fieldsValidation(): boolean {
+  if (!first.value || first.value === '') {
     console.log("firstname is not used");
     return false;
   }
-  if (!last.value.value || last.value === '') {
+  if (!last.value || last.value === '') {
     console.log("lastName is not used");
     return false;
   }
-  if (!email.value.value || email.value === '') {
+  if (!email.value || email.value === '') {
     console.log("email is not used");
     return false;
   }
-  if (!phone.value.value || phone.value === '') {
+  if (!phone.value || phone.value === '') {
     console.log("phone is not used");
     return false;
   }
-  if (!birth.value.value || birth.value === '') {
+  if (!birth.value || birth.value === '') {
     console.log("birth is not used");
     return false;
   }
-  if (!guests.value.value || guests.value === 0) {
+  if (!guests.value || guests.value === 0) {
     console.log("guests is not used");
     return false;
   }
   return true;
 }
 
-const bookRoom = () => {
+const bookRoom = async () => {
   if (!fieldsValidation()) {
     alert("Bitte füllen sie alle felder vorher aus!")
     return;
@@ -141,23 +154,31 @@ const bookRoom = () => {
 
   const dateStore = useDateStore();
 
-  userStore.sendBooking(
-    new User(
-      new Customer(
-        first.value.value || '',
-        last.value.value || '',
-        email.value.value || '',
-        phone.value.value || '',
-        birth.value.value || ''
-      ),
-      guests.value.value || 1,
-      breakfast.value.checked || false
-    ),
-    props.roomId,
-    dateStore.start,
-    dateStore.end
-  )
+  const res = await axios.post(import.meta.env.VITE_API_BASE_URL + "/bookings", {
+    roomIds: [props.roomId],
+    startDate: dateStore.start,
+    endDate: dateStore.end,
+    customer: {
+      firstName: first.value.value,
+      lastName: last.value.value,
+      email: email.value.value,
+      phoneNumber: phone.value.value,
+      birthDate: birth.value.value,
+    },
+    numberOfGuests: guests.value.value,
+    breakfast: breakfast.value.checked,
+  }, {
+    validateStatus: status => (status >= 200 && status < 499)
+  });
 
+  if (res.status === 200) {
+    alert("Booking was successful!");
+    setOpen(false);
+  } else if (res.status == 409) {
+    alert("Room is already booked in this time period!");
+  } else {
+    alert("Booking failed!");
+  }
 }
 </script>
 

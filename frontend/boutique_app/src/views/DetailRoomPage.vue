@@ -29,7 +29,7 @@
 
         <DateRangePicker class="ion-padding date-picker"></DateRangePicker>
         <br>
-        <BookingForm :room-id="id" :button-enabled="bookingEnabled" />
+        <BookingForm :room-id="id" />
 
       </div>
     </ion-content>
@@ -72,6 +72,7 @@ import {useRoomStore} from '@/stores/roomsStore';
 import Room from '@/models/room';
 import DateRangePicker from "@/components/DateRangePicker.vue";
 import BookingForm from "@/components/BookingForm.vue";
+import {useDateStore} from "@/stores/dateStore";
 
 export default {
   name: 'DetailRoomPage',
@@ -101,7 +102,6 @@ export default {
     const route = useRoute();
     const roomStore = useRoomStore();
     const room = ref<Room | null>(null);
-    let bookingEnabled = ref(false);
 
     const fetchRoom = () => {
       const roomId = parseInt(route.params.id[0], 10);
@@ -109,12 +109,13 @@ export default {
     };
 
     onMounted(async () => {
-      await roomStore.fetchRooms();
+      const dateStore = useDateStore();
+      await roomStore.fetchRooms(dateStore.start, dateStore.end);
       fetchRoom();
     });
 
     return {
-      room, bookingEnabled
+      room
     };
   },
   methods: {
