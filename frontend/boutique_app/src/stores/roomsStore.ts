@@ -10,7 +10,7 @@ export const useRoomStore = defineStore('rooms', {
         };
     },
     actions: {
-        async fetchRooms(start: string | undefined, end: string | undefined) {
+        async fetchRooms(start: string | undefined = undefined, end: string | undefined = undefined) {
             if (this.loading) {
                 return new Promise((resolve) => {
                     setTimeout(() => {
