@@ -35,13 +35,21 @@ import '@ionic/vue/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import VueGoogleMaps from "@fawmi/vue-google-maps";
 
 const pinia = createPinia();
 
 const app = createApp(App)
-  .use(IonicVue)
-  .use(router)
-  .use(pinia);
+    .use(IonicVue)
+    .use(router)
+    .use(pinia)
+    .use(VueGoogleMaps, {
+        load: {
+            key: import.meta.env.VITE_MAPS_KEY,
+            libraries: 'places,directions',
+            language: 'de',
+        },
+    });
 
 router.isReady().then(() => {
   app.mount('#app');
