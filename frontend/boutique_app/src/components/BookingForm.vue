@@ -12,40 +12,40 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-item>
-        <ion-input label="Enter your first name" label-placement="stacked" ref="first" type="text"
+        <ion-input label="Enter your first name" label-placement="stacked" v-model="first" type="text"
           placeholder="Your first name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="Enter your last name" label-placement="stacked" ref="last" type="text"
+        <ion-input label="Enter your last name" label-placement="stacked" v-model="last" type="text"
           placeholder="Your last name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="Enter your email" label-placement="stacked" ref="email" type="email"
+        <ion-input label="Enter your email" label-placement="stacked" v-model="email" type="email"
           placeholder="Your email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="Confirm your email" label-placement="stacked" ref="confirmEmail" type="email"
+        <ion-input label="Confirm your email" label-placement="stacked" v-model="confirmEmail" type="email"
           placeholder="Confirm your email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="Enter your phone number" label-placement="stacked" ref="phone" type="tel"
+        <ion-input label="Enter your phone number" label-placement="stacked" v-model="phone" type="tel"
           placeholder="Your phone number"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="Enter your birth date" label-placement="stacked" ref="birth" type="date"
+        <ion-input label="Enter your birth date" label-placement="stacked" v-model="birth" type="date"
           placeholder="Your birth date"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="Enter your address" label-placement="stacked" ref="address" type="text"
+        <ion-input label="Enter your address" label-placement="stacked" v-model="address" type="text"
           placeholder="Address"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label="Enter the number of guests" label-placement="stacked" ref="guests" type="number"
+        <ion-input label="Enter the number of guests" label-placement="stacked" v-model="guests" type="number"
           placeholder="Number of guests"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Breakfast</ion-label>
-        <ion-checkbox slot="end" ref="breakfast"></ion-checkbox>
+        <ion-checkbox slot="end" v-model="breakfast"></ion-checkbox>
       </ion-item>
       <br>
       <ion-button @click="bookRoom">
@@ -53,7 +53,6 @@
       </ion-button>
     </ion-content>
   </ion-modal>
-
 </template>
 
 <script lang="ts" setup>
@@ -62,7 +61,7 @@ import { useBookingStore } from "@/stores/bookingStore";
 import { useDateStore } from "@/stores/dateStore";
 import { useRoomStore } from "@/stores/roomsStore";
 import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonTitle, IonToolbar, IonCheckbox, IonLabel, IonItem, IonInput } from '@ionic/vue';
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps(['roomId']);
@@ -81,22 +80,21 @@ onMounted(() => {
   });
   roomStore.$subscribe(async (mutation, state) => {
     isAvailable.value = state.rooms.find(room => room.id == props.roomId)?.available ?? false;
-
   });
   isAvailable.value = roomStore.rooms.find(room => room.id == props.roomId)?.available ?? false;
 });
 
 const isAvailable = ref(false);
 
-const first = ref();
-const last = ref();
-const email = ref();
-const confirmEmail = ref();
-const phone = ref();
-const birth = ref();
-const address = ref();
-const guests = ref();
-const breakfast = ref();
+const first = ref('');
+const last = ref('');
+const email = ref('');
+const confirmEmail = ref('');
+const phone = ref('');
+const birth = ref('');
+const address = ref('');
+const guests = ref(0);
+const breakfast = ref(false);
 
 function fieldsValidation(): boolean {
   if (!first.value || first.value === '') {
@@ -108,7 +106,7 @@ function fieldsValidation(): boolean {
   if (!email.value || email.value === '') {
     return false;
   }
-  if (email.value.value !== confirmEmail.value.value) {
+  if (email.value !== confirmEmail.value) {
     return false;
   }
   if (!phone.value || phone.value === '') {
@@ -120,7 +118,7 @@ function fieldsValidation(): boolean {
   if (!address.value || address.value === '') {
     return false;
   }
-  if (!guests.value || guests.value === 0) {
+  if (guests.value === 0) {
     return false;
   }
   return true;
@@ -128,15 +126,16 @@ function fieldsValidation(): boolean {
 
 const bookRoom = async () => {
   if (!fieldsValidation()) {
-    alert("Bitte füllen sie alle felder korrekt aus!")
+    alert("Bitte füllen sie alle Felder korrekt aus!")
     return;
   }
 
-  const customer = new Customer(first.value.value, last.value.value, email.value.value, phone.value.value, birth.value.value, address.value.value);
-  bookingStore.numberOfGuests = guests.value.value;
-  bookingStore.breakfast = breakfast.value.checked;
+  console.log(first.value, last.value, email.value, phone.value, birth.value, address.value);
+  const customer = new Customer(first.value, last.value, email.value, phone.value, birth.value, address.value);
+  bookingStore.numberOfGuests = guests.value;
+  bookingStore.breakfast = breakfast.value;
 
-  const res = await bookingStore.bookRoom(customer, props.roomId, guests.value.value, breakfast.value.checked, dateStore.start, dateStore.end);
+  const res = await bookingStore.bookRoom(customer, props.roomId, guests.value, breakfast.value, dateStore.start, dateStore.end);
 
   if (res.status === 200) {
     setOpen(false);
