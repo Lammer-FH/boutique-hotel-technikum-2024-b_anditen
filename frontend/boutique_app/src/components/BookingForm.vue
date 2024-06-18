@@ -61,7 +61,7 @@ import Customer from "@/models/customer";
 import { useBookingStore } from "@/stores/bookingStore";
 import { useDateStore } from "@/stores/dateStore";
 import { useRoomStore } from "@/stores/roomsStore";
-import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonTitle, IonToolbar, IonCheckbox, IonLabel, IonItem, IonInput } from '@ionic/vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
