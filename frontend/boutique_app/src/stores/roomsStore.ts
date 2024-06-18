@@ -50,14 +50,12 @@ export const useRoomStore = defineStore("rooms", {
             roomData.available
           )
       );
-      console.log("Rooms: ", this.rooms);
       this.loading = false;
 
       return this.rooms;
     },
 
     getRoom(id: number) {
-      console.log("getRoom called with id:" + id);
       return this.rooms.find((room) => room.id === id);
     },
   },

@@ -77,14 +77,11 @@ const setOpen = (open: boolean) => (isOpen.value = open);
 
 onMounted(() => {
   dateStore.$subscribe(async (mutation, state) => {
-    console.log('DateStore changed', state.start, state.end);
     await roomStore.fetchRooms(state.start, state.end);
   });
   roomStore.$subscribe(async (mutation, state) => {
-    console.log('RoomStore changed', state.rooms);
     isAvailable.value = state.rooms.find(room => room.id == props.roomId)?.available ?? false;
-    console.log(props.roomId)
-    console.log('RoomStore changed', state.rooms.find(room => room.id == props.roomId));
+
   });
   isAvailable.value = roomStore.rooms.find(room => room.id == props.roomId)?.available ?? false;
 });
@@ -103,35 +100,27 @@ const breakfast = ref();
 
 function fieldsValidation(): boolean {
   if (!first.value || first.value === '') {
-    console.log("firstname is not used");
     return false;
   }
   if (!last.value || last.value === '') {
-    console.log("lastName is not used");
     return false;
   }
   if (!email.value || email.value === '') {
-    console.log("email is not used");
     return false;
   }
   if (email.value.value !== confirmEmail.value.value) {
-    console.log("emails do not match");
     return false;
   }
   if (!phone.value || phone.value === '') {
-    console.log("phone is not used");
     return false;
   }
   if (!birth.value || birth.value === '') {
-    console.log("birth is not used");
     return false;
   }
   if (!address.value || address.value === '') {
-    console.log("address is not used");
     return false;
   }
   if (!guests.value || guests.value === 0) {
-    console.log("guests is not used");
     return false;
   }
   return true;
@@ -151,7 +140,6 @@ const bookRoom = async () => {
 
   if (res.status === 200) {
     setOpen(false);
-    console.log(res.data);
     router.push({ name: 'Confirmation' }); // Redirect to confirmation page
   } else if (res.status == 409) {
     alert("Room is already booked in this time period!");

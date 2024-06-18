@@ -73,10 +73,8 @@ onMounted(async () => {
 });
 
 dateStore.$subscribe(async (mutation, state) => {
-  console.log('DateStore changed', state.start, state.end);
   await store.fetchRooms(state.start, state.end);
   rooms.value = store.rooms.filter(room => room.available || room.available == null).slice(0, shownRooms);
-  console.log('Rooms Page ', rooms.value);
 });
 
 </script>
