@@ -17,6 +17,7 @@
 import { useDateStore } from "@/stores/dateStore";
 import { IonDatetimeCustomEvent } from "@ionic/core";
 import { DatetimeChangeEventDetail, IonDatetime } from '@ionic/vue';
+import { IonRow } from '@ionic/vue';
 import { onMounted, ref } from 'vue';
 
 const store = useDateStore()
