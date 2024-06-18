@@ -130,7 +130,6 @@ const bookRoom = async () => {
     return;
   }
 
-  console.log(first.value, last.value, email.value, phone.value, birth.value, address.value);
   const customer = new Customer(first.value, last.value, email.value, phone.value, birth.value, address.value);
   bookingStore.numberOfGuests = guests.value;
   bookingStore.breakfast = breakfast.value;

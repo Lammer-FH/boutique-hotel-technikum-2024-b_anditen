@@ -42,10 +42,10 @@
         </ion-segment>
 
         <div v-if="travelMode === 'car'">
-          <RouteMap travel-mode="car" :start-address="startAddress" />
+          <RouteMap travel-mode="car" :start-address="customer.address" />
         </div>
         <div v-else>
-          <RouteMap travel-mode="train" :start-address="startAddress" />
+          <RouteMap travel-mode="train" :start-address="customer.address" />
         </div>
       </div>
     </ion-content>
@@ -66,7 +66,6 @@ const roomStore = useRoomStore();
 const dateStore = useDateStore();
 const bookingStore = useBookingStore();
 
-const startAddress = ref('');
 const travelMode = ref('car');
 const room = ref<Room>();
 const roomId = bookingStore.roomId;
