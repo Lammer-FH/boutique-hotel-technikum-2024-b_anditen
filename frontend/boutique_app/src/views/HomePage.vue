@@ -12,20 +12,22 @@
     <ion-content :fullscreen="true">
       <div id="overview-container">
         <strong id="heading">Willkommen im Boutique Hotel Technikum!</strong>
-        <p class="justified-text">Sie sind ein Fan von Sonne, Meer und Strand? Oder lieben doch eher Berge, Wald und Schnee vor der Haustüre
+        <p class="justified-text">Sie sind ein Fan von Sonne, Meer und Strand? Oder lieben doch eher Berge, Wald und
+          Schnee vor der Haustüre
           <br>
           Kein Problem! Im Boutique Hotel Technikum ist für jeden das Richtige dabei. Bestaunen Sie die 100%
           wahrheitsgetreuen Bilder auf unserer Seite und buchen Sie noch heute Ihren Aufenthalt. Wir können Sie kaum
-          erwarten!</p>
+          erwarten!
+        </p>
         <swiper ref="swiper" class="mySwiper">
           <swiper-slide>
-            <img src="../assets/technikum_oversight.jpg" alt="Boutique Hotel Technikum overview"/>
+            <img src="../assets/technikum_oversight.jpg" alt="Boutique Hotel Technikum overview" />
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/hotel_room_sea.jpg" alt="Room with beach view"/>
+            <img src="../assets/hotel_room_sea.jpg" alt="Room with beach view" />
           </swiper-slide>
           <swiper-slide>
-            <img src="../assets/hotel_room_mountain.jpg" alt="Room with mountain view"/>
+            <img src="../assets/hotel_room_mountain.jpg" alt="Room with mountain view" />
           </swiper-slide>
         </swiper>
       </div>
@@ -35,10 +37,10 @@
 </template>
 
 <script setup lang="ts">
-import {IonPage, IonButtons, IonContent, IonHeader, IonMenuButton, IonTitle, IonToolbar} from '@ionic/vue';
-import {Swiper, SwiperSlide} from 'swiper/vue';
-import 'swiper/css'
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import 'swiper/css';
 import 'swiper/css/navigation';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 
 </script>
 
@@ -74,5 +76,4 @@ img {
 #heading {
   text-align: center;
 }
-
 </style>

@@ -30,20 +30,20 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
 import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonItem,
   IonList,
   IonMenu,
-  IonContent,
-  IonButtons,
-  IonItem,
-  IonHeader,
-  IonToolbar,
   IonMenuButton,
-  IonTitle,
+  IonMenuToggle,
   IonRouterOutlet,
-  IonMenuToggle
+  IonTitle,
+  IonToolbar
 } from '@ionic/vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Menu',

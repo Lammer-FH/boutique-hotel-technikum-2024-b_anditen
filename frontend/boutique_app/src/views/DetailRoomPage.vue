@@ -10,7 +10,7 @@
     </ion-header>
     <ion-content>
       <div class="room-container">
-        <ion-img class="room-image" :src='room.imageUrl' :alt="room.name"/>
+        <ion-img class="room-image" :src='room.imageUrl' :alt="room.name" />
         <div class="ion-padding room-details">
           <h1>{{ room.name }}</h1>
           <p><strong>Beschreibung:</strong> {{ room.description }}</p>
@@ -52,27 +52,27 @@
 </template>
 
 <script lang="ts">
+import BookingForm from "@/components/BookingForm.vue";
+import DateRangePicker from "@/components/DateRangePicker.vue";
+import Room from '@/models/room';
+import { useDateStore } from "@/stores/dateStore";
+import { useRoomStore } from '@/stores/roomsStore';
 import {
   IonButtons,
-  IonHeader,
-  IonToolbar,
   IonContent,
-  IonTitle,
-  IonPage,
-  IonMenuButton,
-  IonProgressBar,
+  IonHeader,
   IonImg,
-  IonList,
   IonItem,
   IonLabel,
+  IonList,
+  IonMenuButton,
+  IonPage,
+  IonProgressBar,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/vue';
-import {ref, onMounted} from 'vue';
-import {useRoute} from 'vue-router';
-import {useRoomStore} from '@/stores/roomsStore';
-import Room from '@/models/room';
-import DateRangePicker from "@/components/DateRangePicker.vue";
-import BookingForm from "@/components/BookingForm.vue";
-import {useDateStore} from "@/stores/dateStore";
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'DetailRoomPage',
@@ -162,7 +162,6 @@ export default {
 </script>
 
 <style scoped>
-
 .room-container {
   display: flex;
   flex-direction: column;
@@ -225,7 +224,7 @@ ion-label {
   vertical-align: middle;
 }
 
-.date-picker{
+.date-picker {
   padding-bottom: 10%;
 }
 </style>

@@ -42,10 +42,10 @@
         </ion-segment>
 
         <div v-if="travelMode === 'car'">
-          <RouteMap travel-mode="car" :start-address="startAddress"/>
+          <RouteMap travel-mode="car" :start-address="startAddress" />
         </div>
         <div v-else>
-          <RouteMap travel-mode="train" :start-address="startAddress"/>
+          <RouteMap travel-mode="train" :start-address="startAddress" />
         </div>
       </div>
     </ion-content>
@@ -53,32 +53,29 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonLabel } from "@ionic/vue";
-import { useRoomStore } from "@/stores/roomsStore";
-import { useDateStore } from "@/stores/dateStore";
-import RouteMap from "@/components/RouteMap.vue";
-import {useBookingStore} from "@/stores/bookingStore";
 import RoomCard from "@/components/RoomCard.vue";
+import RouteMap from "@/components/RouteMap.vue";
 import Room from "@/models/room";
+import { useBookingStore } from "@/stores/bookingStore";
+import { useDateStore } from "@/stores/dateStore";
+import { useRoomStore } from "@/stores/roomsStore";
+import { IonButtons, IonContent, IonHeader, IonLabel, IonMenuButton, IonPage, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from "@ionic/vue";
+import { computed, ref } from "vue";
 
 const roomStore = useRoomStore();
 const dateStore = useDateStore();
 const bookingStore = useBookingStore();
 
-const startAddress = ref('Albert-Schweitzer-Gasse 6, 1140 Wien');
+const startAddress = ref('');
 const travelMode = ref('car');
 const room = ref<Room>();
 const roomId = bookingStore.roomId;
-let room1 = roomStore.getRoom(Number(roomId));
+const room1 = roomStore.getRoom(Number(roomId));
 room.value = room1;
 
 const customer = ref(bookingStore.customer);
 
 const numberOfNights = computed(() => {
-  if (!dateStore.start || !dateStore.end) {
-    return "N/A";
-  }
   const checkIn = new Date(dateStore.start);
   const checkOut = new Date(dateStore.end);
   const timeDifference = checkOut.getTime() - checkIn.getTime();
