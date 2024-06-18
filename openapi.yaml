@@ -41,43 +41,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Room'
-  /rooms/{roomId}:
-    get:
-      summary: Get a room by ID and filter optionally
-      operationId: getRoomById
-      parameters:
-        - name: roomId
-          in: path
-          required: true
-          description: The ID of the room to get
-          schema:
-            type: integer
-        - name: filter
-          in: query
-          required: false
-          description: Optional filters for the room
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                startDate:
-                  type: string
-                  format: date
-                  description: Filter rooms by start date
-                endDate:
-                  type: string
-                  format: date
-                  description: Filter rooms by end date
-      responses:
-        '200':
-          description: Detailed information about the room
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Room'
-        '404':
-          description: Room not found
   /bookings:
     post:
       summary: Create a new booking

@@ -35,18 +35,6 @@ class RoomController(val roomRepository: RoomRepository) {
         return rooms
     }
 
-    @GetMapping("/{id}")
-    fun getRoomById(@PathVariable id: Long): Room =
-        roomRepository.findById(id).map { Room.from(it) }.orElseThrow() { RoomNotFoundException(id) }
-
-    @GetMapping("/{id}/available")
-    fun isRoomAvailable(
-        @PathVariable id: Long,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) start: LocalDate,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) end: LocalDate
-    ): Boolean =
-        roomRepository.checkIfRoomIsAvailable(id, Date.valueOf(start), Date.valueOf(end))
-
     @ResponseBody
     @GetMapping(value = ["/{id}/image"], produces = [MediaType.IMAGE_JPEG_VALUE])
     fun getImageWithMediaType(@PathVariable id: String): ByteArray {
