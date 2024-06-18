@@ -3,8 +3,8 @@ import { defineStore } from "pinia";
 export const useDateStore = defineStore("date", {
   state() {
     return {
-      start: new Date().toISOString().split("T")[0] as string | undefined,
-      end: tomorrow().split("T")[0] as string | undefined,
+      start: new Date().toISOString().split("T")[0] as string,
+      end: tomorrow().split("T")[0] as string,
     };
   },
   actions: {
