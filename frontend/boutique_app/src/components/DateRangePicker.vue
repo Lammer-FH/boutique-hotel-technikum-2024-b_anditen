@@ -2,22 +2,22 @@
   <ion-row>
     <div>
       <h2>From:</h2>
-      <ion-datetime presentation="date" :prefer-wheel="true" :min="new Date().toISOString()" max="2050"
-                    :value="start" @ionChange="setStart"></ion-datetime>
+      <ion-datetime presentation="date" :prefer-wheel="true" :min="new Date().toISOString()" max="2050" :value="start"
+        @ionChange="setStart"></ion-datetime>
     </div>
     <div>
       <h2>To:</h2>
-      <ion-datetime presentation="date" :prefer-wheel="true" :min="endMin" max="2050"
-                    :value="end" @ionChange="setEnd"></ion-datetime>
+      <ion-datetime presentation="date" :prefer-wheel="true" :min="endMin" max="2050" :value="end"
+        @ionChange="setEnd"></ion-datetime>
     </div>
   </ion-row>
 </template>
 
 <script setup lang="ts">
-import {DatetimeChangeEventDetail, IonDatetime} from '@ionic/vue';
-import {onMounted, ref} from 'vue';
-import {useDateStore} from "@/stores/dateStore";
-import {IonDatetimeCustomEvent} from "@ionic/core";
+import { useDateStore } from "@/stores/dateStore";
+import { IonDatetimeCustomEvent } from "@ionic/core";
+import { DatetimeChangeEventDetail, IonDatetime } from '@ionic/vue';
+import { onMounted, ref } from 'vue';
 
 const store = useDateStore()
 

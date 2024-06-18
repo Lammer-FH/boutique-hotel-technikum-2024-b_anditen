@@ -42,10 +42,10 @@
         </ion-segment>
 
         <div v-if="travelMode === 'car'">
-          <RouteMap travel-mode="car" :start-address="startAddress"/>
+          <RouteMap travel-mode="car" :start-address="startAddress" />
         </div>
         <div v-else>
-          <RouteMap travel-mode="train" :start-address="startAddress"/>
+          <RouteMap travel-mode="train" :start-address="startAddress" />
         </div>
       </div>
     </ion-content>
@@ -53,14 +53,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonLabel } from "@ionic/vue";
-import { useRoomStore } from "@/stores/roomsStore";
-import { useDateStore } from "@/stores/dateStore";
-import RouteMap from "@/components/RouteMap.vue";
-import {useBookingStore} from "@/stores/bookingStore";
 import RoomCard from "@/components/RoomCard.vue";
+import RouteMap from "@/components/RouteMap.vue";
 import Room from "@/models/room";
+import { useBookingStore } from "@/stores/bookingStore";
+import { useDateStore } from "@/stores/dateStore";
+import { useRoomStore } from "@/stores/roomsStore";
+import { IonButtons, IonContent, IonHeader, IonLabel, IonMenuButton, IonPage, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from "@ionic/vue";
+import { computed, ref } from "vue";
 
 const roomStore = useRoomStore();
 const dateStore = useDateStore();

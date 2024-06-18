@@ -11,7 +11,8 @@
     <ion-content class="ion-padding">
       <div class="about-container">
         <h1 class="title-item">Über uns</h1>
-        <p class="justified-text">Wir sind drei junge & aufstrebende Hoteliers, die Großes für das Hotelwesen in der Stadt Wien beitragen
+        <p class="justified-text">Wir sind drei junge & aufstrebende Hoteliers, die Großes für das Hotelwesen in der
+          Stadt Wien beitragen
           wollen. Gehobene Hotelzimmer zu erschwinglichen Preisen ist unsere Devise. Wir freuen uns auf Ihren
           Besuch!</p>
       </div>
@@ -50,22 +51,22 @@
 
 <script setup lang="ts">
 import {
+  IonAvatar,
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
   IonMenuButton,
   IonPage,
   IonTitle,
-  IonToolbar,
-  IonIcon,
-  IonAvatar,
-  IonItem,
-  IonLabel,
-  IonList
+  IonToolbar
 } from '@ionic/vue';
 
-import {addIcons} from 'ionicons';
-import {personCircle} from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+import { personCircle } from 'ionicons/icons';
 
 addIcons({
   'person-circle': personCircle
@@ -74,7 +75,6 @@ addIcons({
 </script>
 
 <style scoped>
-
 .justified-text {
   text-align: justify;
 }

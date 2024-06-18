@@ -12,76 +12,36 @@
     </ion-header>
     <ion-content class="ion-padding">
       <ion-item>
-        <ion-input
-            label="Enter your first name"
-            label-placement="stacked"
-            ref="first"
-            type="text"
-            placeholder="Your first name"
-        ></ion-input>
+        <ion-input label="Enter your first name" label-placement="stacked" ref="first" type="text"
+          placeholder="Your first name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input
-            label="Enter your last name"
-            label-placement="stacked"
-            ref="last"
-            type="text"
-            placeholder="Your last name"
-        ></ion-input>
+        <ion-input label="Enter your last name" label-placement="stacked" ref="last" type="text"
+          placeholder="Your last name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input
-            label="Enter your email"
-            label-placement="stacked"
-            ref="email"
-            type="email"
-            placeholder="Your email"
-        ></ion-input>
+        <ion-input label="Enter your email" label-placement="stacked" ref="email" type="email"
+          placeholder="Your email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input
-            label="Confirm your email"
-            label-placement="stacked"
-            ref="confirmEmail"
-            type="email"
-            placeholder="Confirm your email"
-        ></ion-input>
+        <ion-input label="Confirm your email" label-placement="stacked" ref="confirmEmail" type="email"
+          placeholder="Confirm your email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input
-            label="Enter your phone number"
-            label-placement="stacked"
-            ref="phone"
-            type="tel"
-            placeholder="Your phone number"
-        ></ion-input>
+        <ion-input label="Enter your phone number" label-placement="stacked" ref="phone" type="tel"
+          placeholder="Your phone number"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input
-            label="Enter your birth date"
-            label-placement="stacked"
-            ref="birth"
-            type="date"
-            placeholder="Your birth date"
-        ></ion-input>
+        <ion-input label="Enter your birth date" label-placement="stacked" ref="birth" type="date"
+          placeholder="Your birth date"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input
-            label="Enter your address"
-            label-placement="stacked"
-            ref="address"
-            type="text"
-            placeholder="Address"
-        ></ion-input>
+        <ion-input label="Enter your address" label-placement="stacked" ref="address" type="text"
+          placeholder="Address"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input
-            label="Enter the number of guests"
-            label-placement="stacked"
-            ref="guests"
-            type="number"
-            placeholder="Number of guests"
-        ></ion-input>
+        <ion-input label="Enter the number of guests" label-placement="stacked" ref="guests" type="number"
+          placeholder="Number of guests"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Breakfast</ion-label>
@@ -97,13 +57,13 @@
 </template>
 
 <script lang="ts" setup>
-import {IonButtons, IonButton, IonModal, IonHeader, IonToolbar, IonContent, IonTitle} from '@ionic/vue';
-import {onMounted, ref} from 'vue';
-import {useDateStore} from "@/stores/dateStore";
-import {useRoomStore} from "@/stores/roomsStore";
-import {useBookingStore} from "@/stores/bookingStore";
-import { useRouter } from 'vue-router';
 import Customer from "@/models/customer";
+import { useBookingStore } from "@/stores/bookingStore";
+import { useDateStore } from "@/stores/dateStore";
+import { useRoomStore } from "@/stores/roomsStore";
+import { IonButton, IonButtons, IonContent, IonHeader, IonModal, IonTitle, IonToolbar } from '@ionic/vue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const props = defineProps(['roomId']);
 const router = useRouter();

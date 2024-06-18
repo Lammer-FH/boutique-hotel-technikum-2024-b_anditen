@@ -3,22 +3,10 @@
     <h2>Total Travel Time: {{ totalTravelTime }}</h2>
   </div>
 
-  <GMapMap
-      :center="center"
-      :zoom="zoom"
-      style="width: 100%; height: 500px"
-      @tilesloaded="onMapLoaded"
-  >
-    <GMapMarker
-        v-for="(marker, index) in markers"
-        :key="index"
-        :position="marker.position"
-    />
-    <GMapPolyline
-        v-if="routePath.length"
-        :path="routePath"
-        :options="{ strokeColor: '#FF0000', strokeOpacity: 1.0, strokeWeight: 2 }"
-    />
+  <GMapMap :center="center" :zoom="zoom" style="width: 100%; height: 500px" @tilesloaded="onMapLoaded">
+    <GMapMarker v-for="(marker, index) in markers" :key="index" :position="marker.position" />
+    <GMapPolyline v-if="routePath.length" :path="routePath"
+      :options="{ strokeColor: '#FF0000', strokeOpacity: 1.0, strokeWeight: 2 }" />
 
     <div v-if="transitDetails.length" class="transit-details">
       <h2>Details zur Anreise</h2>
@@ -93,14 +81,14 @@ export default defineComponent({
             // Extract transit details
             const legs = result.routes[0].legs[0];
             transitDetails.value = legs.steps
-                .filter(step => step.travel_mode === 'TRANSIT')
-                .map(step => ({
-                  lineName: step.transit.line.name,
-                  lineNumber: step.transit.line.short_name,
-                  vehicleType: step.transit.line.vehicle.type,
-                  departureStop: step.transit.departure_stop.name,
-                  arrivalStop: step.transit.arrival_stop.name,
-                }));
+              .filter(step => step.travel_mode === 'TRANSIT')
+              .map(step => ({
+                lineName: step.transit.line.name,
+                lineNumber: step.transit.line.short_name,
+                vehicleType: step.transit.line.vehicle.type,
+                departureStop: step.transit.departure_stop.name,
+                arrivalStop: step.transit.arrival_stop.name,
+              }));
           }
         } else {
           console.error('Error fetching directions:', status);

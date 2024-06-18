@@ -10,14 +10,11 @@
     </ion-header>
     <ion-content class="ion-padding centered-content" :fullscreen="true">
       <div class="centered-container">
-        <DateRangePicker/>
+        <DateRangePicker />
         <div v-if="rooms.length">
           <ion-list>
-            <ion-item v-for="room in rooms"
-                      :key="room.id" lines="none">
-              <RoomCard
-                  :room="room"
-              />
+            <ion-item v-for="room in rooms" :key="room.id" lines="none">
+              <RoomCard :room="room" />
             </ion-item>
           </ion-list>
 
@@ -38,25 +35,25 @@
 </template>
 
 <script lang="ts" setup>
+import DateRangePicker from "@/components/DateRangePicker.vue";
+import { useDateStore } from "@/stores/dateStore";
 import {
   IonButtons,
-  IonHeader,
-  IonToolbar,
   IonContent,
-  IonTitle,
-  IonPage,
-  IonMenuButton,
-  IonList,
-  IonItem,
+  IonHeader,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonItem,
+  IonList,
+  IonMenuButton,
+  IonPage,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/vue';
+import { onMounted, ref } from 'vue';
 import RoomCard from '../components/RoomCard.vue';
 import Room from '../models/room';
-import {useRoomStore} from '../stores/roomsStore';
-import {onMounted, ref} from 'vue';
-import DateRangePicker from "@/components/DateRangePicker.vue";
-import {useDateStore} from "@/stores/dateStore";
+import { useRoomStore } from '../stores/roomsStore';
 
 const dateStore = useDateStore();
 
@@ -101,5 +98,4 @@ dateStore.$subscribe(async (mutation, state) => {
   align-self: center;
   width: 100%;
 }
-
 </style>
