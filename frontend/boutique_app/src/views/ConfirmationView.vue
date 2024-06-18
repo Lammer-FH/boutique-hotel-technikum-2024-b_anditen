@@ -66,19 +66,16 @@ const roomStore = useRoomStore();
 const dateStore = useDateStore();
 const bookingStore = useBookingStore();
 
-const startAddress = ref('Albert-Schweitzer-Gasse 6, 1140 Wien');
+const startAddress = ref('');
 const travelMode = ref('car');
 const room = ref<Room>();
 const roomId = bookingStore.roomId;
-let room1 = roomStore.getRoom(Number(roomId));
+const room1 = roomStore.getRoom(Number(roomId));
 room.value = room1;
 
 const customer = ref(bookingStore.customer);
 
 const numberOfNights = computed(() => {
-  if (!dateStore.start || !dateStore.end) {
-    return "N/A";
-  }
   const checkIn = new Date(dateStore.start);
   const checkOut = new Date(dateStore.end);
   const timeDifference = checkOut.getTime() - checkIn.getTime();
